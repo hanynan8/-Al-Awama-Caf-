@@ -103,10 +103,14 @@ function HeroSection() {
           أكل يفرحك و مود يريحك🧡
         </p>
         <a
-          href="#menu"
-            className="bg-white hover:bg-white/90 text-[#ff4c0d] font-bold px-10 py-3 transition-colors duration-200 cursor-pointer font-['Cairo'] text-base inline-block text-center no-underline"
-          >
-            تصفح المينيو
+        href="#menu"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' });
+          }}
+          className="bg-white hover:bg-white/90 text-[#ff4c0d] font-bold px-10 py-3 transition-colors duration-200 cursor-pointer font-['Cairo'] text-base inline-block text-center no-underline"
+        >
+          تصفح المينيو
         </a>
       </section>
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-center justify-center">

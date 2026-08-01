@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 
 // ─── غيّر ده لرقم واتساب المطعم (بالكود الدولي، من غير + أو أصفار زيادة) ──────
-const WHATSAPP_NUMBER = '201000000000';
+const WHATSAPP_NUMBER = '201013818888';
 
 // ─── صور افتراضية لكل قسم ────────────────────────────────────────────────────
 const CATEGORY_IMAGES = {

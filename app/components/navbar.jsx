@@ -10,8 +10,7 @@ const navLinks = [
   { label: 'تواصل معانا', href: '#footer' },
 ];
 
-const GEDO_AVATAR_URL =
-  'https://github.com/hanynan8/forImages/blob/main/ChatGPT%20Image%20Jul%2017%2C%202026%2C%2005_35_09%20AM.png?raw=true';
+const GEDO_AVATAR_URL = '/logo.jpg';
 
 /* ─── Hamburger Icon ─────────────────────────────────────────────────────────── */
 function HamburgerIcon({ open }) {
@@ -24,49 +23,21 @@ function HamburgerIcon({ open }) {
   );
 }
 
-/* ─── Logo ───────────────────────────────────────────────────────────────────── */
+/* ─── Logo (صورة دائرية + اسم في سطر واحد جمبها) ────────────────────────────── */
 function GedoLogo() {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center gap-3">
       <img
         src={GEDO_AVATAR_URL}
-        alt="جدو عبدو"
-        className="h-[88px] w-auto object-contain drop-shadow-md"
+        alt="Dega's Aswan"
+        className="h-[76px] w-[76px] rounded-full object-cover flex-shrink-0 drop-shadow-md"
       />
-      <svg
-        viewBox="-10 0 80 95"
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-[88px] w-auto -ml-3 relative z-50"
-        style={{ overflow: 'visible' }}
-        aria-hidden="true"
+      <span
+        className="whitespace-nowrap text-[26px] font-bold text-[#DC2626]"
+        style={{ fontFamily: "'Amiri', serif" }}
       >
-        <text x="50" y="40" textAnchor="middle" fill="#ff4c0d" fontSize="36" fontFamily="'Amiri', serif" fontWeight="700">جدو</text>
-        <line x1="39" y1="45" x2="62" y2="45" stroke="#ff4c0d" strokeWidth="2.5" />
-        <text x="33" y="84" textAnchor="middle" fill="#ff4c0d" fontSize="28" fontWeight="700" fontFamily="'Amiri', serif">ُ</text>
-        <text x="50" y="70" textAnchor="middle" fill="#ff4c0d" fontSize="36" fontFamily="'Amiri', serif" fontWeight="700">عبدو</text>
-        <line x1="39" y1="75" x2="53.5" y2="75" stroke="#ff4c0d" strokeWidth="2.5" />
-        <text x="35" y="54" textAnchor="middle" fill="#ff4c0d" fontSize="28" fontWeight="700" fontFamily="'Amiri', serif">ُ</text>
-      </svg>
-    </div>
-  );
-}
-
-/* ─── Tagline ─────────────────────────────────────────────────────────────────── */
-function Tagline() {
-  return (
-    <div
-      className="hidden md:flex flex-col items-center select-none leading-tight"
-      style={{
-        fontFamily: "'Amiri', serif",
-        fontStyle: 'normal',
-        transform: 'skewX(15deg)',
-        fontWeight: '700',
-        color: '#ff4c0d',
-        opacity: 0.9,
-      }}
-    >
-      <span style={{ fontSize: '20px' }}>إيه أصل</span>
-      <span style={{ fontSize: '26px' }}>الحكاية؟</span>
+        Dega&apos;s Aswan
+      </span>
     </div>
   );
 }
@@ -103,17 +74,12 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 dir="rtl"
-                className="text-[16px] text-[#201710]/80 transition-colors duration-200 hover:text-[#DE4711]"
+                className="text-[16px] text-[#201710]/80 transition-colors duration-200 hover:text-[#DC2626]"
                 style={{ fontFamily: 'var(--font-arabic, "Cairo", system-ui, sans-serif)' }}
               >
                 {link.label}
               </a>
             ))}
-          </div>
-
-          {/* ── الجملة في أقصى الشمال ── */}
-          <div className="hidden md:flex items-center absolute left-5 sm:left-8">
-            <Tagline />
           </div>
 
           {/* ── زرار الـ hamburger (موبايل فقط) ── */}
@@ -138,7 +104,7 @@ export default function Navbar() {
               href={link.href}
               onClick={() => setIsOpen(false)}
               dir="rtl"
-              className="border-b border-[#201710]/10 py-3 text-[18px] text-[#201710]/80 last:border-0 transition-colors duration-200 hover:text-[#DE4711]"
+              className="border-b border-[#201710]/10 py-3 text-[18px] text-[#201710]/80 last:border-0 transition-colors duration-200 hover:text-[#DC2626]"
               style={{ fontFamily: 'var(--font-arabic, "Cairo", system-ui, sans-serif)' }}
             >
               {link.label}

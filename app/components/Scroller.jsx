@@ -7,24 +7,24 @@ const storySlides = [
     id: 0,
     label: 'قصتنا',
     text: 'منذ افتتاح جدو عبدو في أسوان، كان هدفنا تقديم فطاير وبيتزا وأكلات بجودة عالية وطعم أصيل يخلي كل زيارة تجربة مميزة. ومع مرور السنين وثقة عملائنا، أصبح جدو عبدو واحدًا من الأسماء المعروفة في أسوان، محافظين على نفس الجودة والمذاق الذي بدأنا به من أول يوم.',
-    img: 'https://github.com/hanynan8/forImages/blob/main/490791809_122107969310831792_1645359563520428497_n.jpg?raw=true',
+    img: '/3.jfif',
   },
   {
     id: 1,
     label: 'وعدنا',
     text: 'كل فطيرة بتتحضر بمكونات طازة يوميًا، من غير اختصارات ولا حاجة مجمدة. الجودة عندنا مش شعار بنكتبه... دي عادة بنكررها كل يوم.',
-    img: 'https://github.com/hanynan8/forImages/blob/main/711349299_122180173136831792_7907486395612506322_n%20(1).jpg?raw=true',
+    img: '/2.jpg',
   },
   {
     id: 2,
     label: 'فريقنا',
     text: 'ورا كل فطيرة إيد شاطرة وقلب حابب شغله. فريقنا مكوّن من ناس بتحب الأكل زيك بالظبط، وشغالين علشان يوصلولك تجربة تستاهل.',
-    img: 'https://github.com/hanynan8/forImages/blob/main/ChatGPT%20Image%20Jul%2018,%202026,%2001_24_53%20AM.png?raw=true',
+    img: '/1.jpg',
   },
 ];
 
 const LOGO_URL =
-  'https://github.com/hanynan8/forImages/blob/main/ChatGPT%20Image%20Jul%2017%2C%202026%2C%2005_35_09%20AM.png?raw=true';
+  '/logo.jpg';
 
 const LERP_FACTOR = 0.12;
 const END_BUFFER_VH = 40;
@@ -108,7 +108,7 @@ export default function StorySection() {
         <style>{`
           @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:wght@400;700&display=swap');
 
-          .story-root { background: #ff4c0d; overflow: hidden; width: 100%; }
+          .story-root { background: #DC2626; overflow: hidden; width: 100%; }
           .story-strip {
             display: flex; flex-direction: row;
             width: ${total * 100}%; height: 100%;
@@ -158,10 +158,10 @@ export default function StorySection() {
                   <span className="block w-12 h-[1px] bg-white/90" />
                   <svg viewBox="0 0 24 24" className="w-5 h-5 text-white fill-current" aria-hidden="true">
                     <path d="M12 2 21 19a10 10 0 0 1-18 0L12 2z" />
-                    <path d="M4.6 15.5c1.6.8 3.2 1.2 5 1.5" fill="none" stroke="#ff4c0d" strokeWidth="1.1" strokeLinecap="round" />
-                    <circle cx="12" cy="9" r="1" fill="#ff4c0d" />
-                    <circle cx="9" cy="13" r="1" fill="#ff4c0d" />
-                    <circle cx="14.5" cy="13.5" r="1" fill="#ff4c0d" />
+                    <path d="M4.6 15.5c1.6.8 3.2 1.2 5 1.5" fill="none" stroke="#DC2626" strokeWidth="1.1" strokeLinecap="round" />
+                    <circle cx="12" cy="9" r="1" fill="#DC2626" />
+                    <circle cx="9" cy="13" r="1" fill="#DC2626" />
+                    <circle cx="14.5" cy="13.5" r="1" fill="#DC2626" />
                   </svg>
                   <span className="block w-12 h-[1px] bg-white/90" />
                 </div>

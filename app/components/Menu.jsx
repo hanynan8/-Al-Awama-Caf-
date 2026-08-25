@@ -1,21 +1,21 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 
-// ─── غيّر ده لرقم واتساب المطعم (بالكود الدولي، من غير + أو أصفار زيادة) ──────
-const WHATSAPP_NUMBER = '201013818888';
+// ─── رقم واتساب المطعم (بالكود الدولي، من غير + أو أصفار زيادة) ──────────────
+const WHATSAPP_NUMBER = '201010620272';
 
 // ─── صور افتراضية لكل قسم ────────────────────────────────────────────────────
 const CATEGORY_IMAGES = {
-  pizza:      'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=700&fit=crop&crop=center',
-  tasa:       'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=700&fit=crop&crop=center',
-  pasta:      'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=600&h=700&fit=crop&crop=center',
-  calzone:    'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&h=700&fit=crop&crop=center',
-  pie_savory: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&h=700&fit=crop&crop=center',
-  pie_sweet:  'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&h=700&fit=crop&crop=center',
-  roll:       'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=600&h=700&fit=crop&crop=center',
-  drinks:     'https://images.unsplash.com/photo-1527960471264-932f39eb5846?w=600&h=700&fit=crop&crop=center',
-  add:        'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=700&fit=crop&crop=center',
+  wraps:             'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=600&h=700&fit=crop&crop=center',
+  strips:            'https://images.unsplash.com/photo-1562967914-608f82629710?w=600&h=700&fit=crop&crop=center',
+  fried_chicken:     'https://images.unsplash.com/photo-1562967916-eb82221dfb92?w=600&h=700&fit=crop&crop=center',
+  appetizers:        'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=600&h=700&fit=crop&crop=center',
+  crepes:            'https://images.unsplash.com/photo-1519676867240-f03562e64548?w=600&h=700&fit=crop&crop=center',
+  tasa:              'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=700&fit=crop&crop=center',
+  beverages:         'https://images.unsplash.com/photo-1527960471264-932f39eb5846?w=600&h=700&fit=crop&crop=center',
+  beef_sandwiches:   'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=700&fit=crop&crop=center',
+  chicken_sandwiches:'https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=600&h=700&fit=crop&crop=center',
 };
 
 const SIZE_LABELS = { S: 'صغير', M: 'وسط', L: 'كبير' };
@@ -25,44 +25,176 @@ const SIZE_ORDER = ['S', 'M', 'L'];
 const PLACEHOLDER_IMG =
   'data:image/svg+xml;utf8,' +
   encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="#f0ebe6"/><text x="50%" y="50%" font-family="sans-serif" font-size="40" text-anchor="middle" dominant-baseline="middle" fill="#c9b8a8">🍕</text></svg>`
+    `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="#f0ebe6"/><text x="50%" y="50%" font-family="sans-serif" font-size="40" text-anchor="middle" dominant-baseline="middle" fill="#c9b8a8">🍗</text></svg>`
   );
 
 function handleImgError(e) {
   if (e.target.src !== PLACEHOLDER_IMG) e.target.src = PLACEHOLDER_IMG;
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// بيانات المنيو — مستخرجة من منيو Dega's (ستاتيك بالكامل)
+// ═══════════════════════════════════════════════════════════════════════════
+const MENU_DATA = {
+  wraps: {
+    label_ar: 'راب',
+    label_en: 'wraps',
+    items: [
+      { name_ar: 'دي تويست أورجينال',        name_en: 'D Twist Original',        price: 105 },
+      { name_ar: 'دي تويست سبايسي',          name_en: 'D Twist Spicy',           price: 105 },
+      { name_ar: 'تشيكن دي رولز',            name_en: 'Chicken D Rolls',         price: 105 },
+      { name_ar: 'تشيكن دي رولز سبايسي',     name_en: 'Chicken D Rolls Spicy',   price: 105 },
+      { name_ar: 'فاهيتا باربكيو',           name_en: 'Fahita BBQ',              price: 105 },
+      { name_ar: 'فاهيتا فاير',              name_en: 'Fahita Fire',             price: 105 },
+      { name_ar: 'تويست لحمة',               name_en: 'Twist Beef Meat',         price: 105 },
+    ],
+  },
+  strips: {
+    label_ar: 'سترپس',
+    label_en: 'strips',
+    items: [
+      { name_ar: 'ديجاز سترپس بالصوص × 3', name_en: 'Degas Strips Sauce 3', price: 165 },
+      { name_ar: 'ديجاز سترپس × 3',        name_en: 'Degas Strips 3',       price: 150 },
+      { name_ar: 'ديجاز سترپس × 5',        name_en: 'Degas Strips 5',       price: 190 },
+      { name_ar: 'ديجاز سترپس × 8',        name_en: 'Degas Strips 8',       price: 250 },
+    ],
+  },
+  fried_chicken: {
+    label_ar: 'دجاج مقرمش',
+    label_en: 'fried chicken',
+    items: [
+      { name_ar: 'وجبة D2 — قطعتين دجاج',    name_en: 'D2 Meal',  price: 165 },
+      { name_ar: 'وجبة D3 — 3 قطع دجاج',     name_en: 'D3 Meal',  price: 210 },
+      { name_ar: 'وجبة D5 — 5 قطع دجاج',     name_en: 'D5 Meal',  price: 280 },
+      { name_ar: 'وجبة D9 — 9 قطع دجاج',     name_en: 'D9 Meal',  price: 480 },
+      { name_ar: 'وجبة D12 — 12 قطعة دجاج',  name_en: 'D12 Meal', price: 570 },
+      { name_ar: 'وجبة D15 — 15 قطعة دجاج',  name_en: 'D15 Meal', price: 665 },
+      { name_ar: 'وجبة D18 — 18 قطعة دجاج',  name_en: 'D18 Meal', price: 770 },
+      { name_ar: 'البرمرطة',                 name_en: 'El Barmarta', price: 150 },
+    ],
+  },
+  appetizers: {
+    label_ar: 'مقبلات',
+    label_en: 'appetizers',
+    items: [
+      { name_ar: 'تشيكن فرايز',           name_en: 'Chicken Fries',       price: 95  },
+      { name_ar: 'هوت دوج فرايز',         name_en: 'Hot Dog Fries',       price: 95  },
+      { name_ar: 'ماك آند تشيز',          name_en: 'Mac And Cheese',      price: 110 },
+      { name_ar: 'بطاطس كبير',            name_en: 'Fries L',             price: 45  },
+      { name_ar: 'بطاطس فاميلي',          name_en: 'Fries Family',        price: 65  },
+      { name_ar: 'أصابع هالبينو × 3',     name_en: 'Jalapeno Sticks 3',   price: 70  },
+      { name_ar: 'أصابع موتزاريلا × 3',   name_en: 'Mozzarella Sticks 3', price: 70  },
+      { name_ar: 'أونيون رينجز',          name_en: 'Onion Rings',         price: 75  },
+      { name_ar: 'ريزو فاهيتا باربكيو',   name_en: 'Fahita BBQ Rizo',     price: 95  },
+      { name_ar: 'ريزو فاهيتا فاير',      name_en: 'Fahita Fire Rizo',    price: 95  },
+      { name_ar: 'فاير ريزو',             name_en: 'Fire Rizo',           price: 95  },
+      { name_ar: 'باربكيو ريزو',          name_en: 'BBQ Rizo',            price: 95  },
+      { name_ar: 'فاميلي تشيز فرايز',     name_en: 'Family Cheese Fries', price: 85  },
+      { name_ar: 'تايجر ويجنز',           name_en: 'Tiger Wings',         price: 95  },
+      { name_ar: 'باربكيو ويجنز',         name_en: 'BBQ Wings',           price: 95  },
+      { name_ar: 'فاير ويجنز',            name_en: 'Fire Wings',          price: 95  },
+      { name_ar: 'وافل بوتيتو',           name_en: 'Waffle Potato',       price: 95  },
+      { name_ar: 'ميكس مقبلات',           name_en: 'Mix Appetizer',       price: 140 },
+    ],
+  },
+  crepes: {
+    label_ar: 'كريب',
+    label_en: 'crepes',
+    items: [
+      { name_ar: 'كريب ديجاز',          name_en: 'Crepe Degas',           price: 105 },
+      { name_ar: 'كريب خضار',           name_en: 'Crepe Vegetables',      price: 75  },
+      { name_ar: 'كريب بطاطس',          name_en: 'Crepe Potato',          price: 85  },
+      { name_ar: 'كريب مكس جبن',        name_en: 'Crepe Mix Cheese',      price: 95  },
+      { name_ar: 'كريب بطاطس مكس',      name_en: 'Crepe Potato Mix',      price: 105 },
+      { name_ar: 'كريب برجر مشوي',      name_en: 'Crepe Grilled Burger',  price: 110 },
+      { name_ar: 'كريب هوت دوج',        name_en: 'Crepe Hot Dog',         price: 100 },
+      { name_ar: 'كريب سجق',            name_en: 'Crepe Sausage',         price: 100 },
+      { name_ar: 'كريب فاهيتا فراخ',    name_en: 'Crepe Fahita Chicken',  price: 120 },
+      { name_ar: 'كريب مكس فراخ',       name_en: 'Crepe Mix Chicken',     price: 140 },
+      { name_ar: 'كريب زنجر',           name_en: 'Crepe Zinger',          price: 125 },
+      { name_ar: 'كريب بيكون مشوي',     name_en: 'Crepe Grilled Bacon',   price: 135 },
+      { name_ar: 'كريب تركي مدخن',      name_en: 'Crepe Smoked Turkey',   price: 135 },
+      { name_ar: 'كريب فراخ جريل',      name_en: 'Crepe Grilled Chicken', price: 120 },
+      { name_ar: 'كريب مكس لحوم',       name_en: 'Crepe Mix Meat',        price: 140 },
+      { name_ar: 'كريب السوبر',         name_en: 'Crepe Super',           price: 155 },
+      { name_ar: 'كريب جمبري',          name_en: 'Crepe Shrimp',          price: 135 },
+      { name_ar: 'كريب تونة',           name_en: 'Crepe Tuna',            price: 120 },
+    ],
+  },
+  tasa: {
+    label_ar: 'طاسة',
+    label_en: 'tasa',
+    items: [
+      { name_ar: 'طاسة فاهيتا استربس (لحمة مفرومة)', name_en: 'Fahita Strips Tasa', price: 160 },
+      { name_ar: 'طاسة نص لحم ونص فراخ',              name_en: 'Half Meat Half Chicken Tasa', price: 190 },
+      { name_ar: 'طاسة مكس فراخ',                     name_en: 'Mix Chicken Tasa', price: 195 },
+    ],
+  },
+  beverages: {
+    label_ar: 'مشروبات',
+    label_en: 'beverages',
+    items: [
+      { name_ar: 'مياه صغيرة',               name_en: 'Water S',          price: 10 },
+      { name_ar: 'كولا 1 لتر',                name_en: 'Cola 1 Liter',     price: 40 },
+      { name_ar: 'مشروب غازي كانز',           name_en: 'Soda Can',         price: 25 },
+      { name_ar: 'كومبو لارج (مشروب + بطاطس صغير)', name_en: 'Combo Large', price: 65 },
+    ],
+  },
+  beef_sandwiches: {
+    label_ar: 'ساندوتش لحم',
+    label_en: 'beef sandwiches',
+    items: [
+      { name_ar: 'تشيزي برجر',            name_en: 'Cheesy Burger',      S: 140, L: 185 },
+      { name_ar: 'ديجاز فاير برجر',        name_en: "Dega's Fire Burger", S: 145, L: 190 },
+      { name_ar: 'بيكون باربكيو',          name_en: 'Bacon BBQ',          S: 150, L: 195 },
+      { name_ar: 'تيستي مشروم',            name_en: 'Tasty Mushroom',     S: 150, L: 195 },
+      { name_ar: 'مكسدوج',                 name_en: 'Mexdog',             S: 160, L: 205 },
+      { name_ar: "سوبر ديجاز (عادي أو حار)", name_en: "Super Dega's",     price: 180 },
+    ],
+  },
+  chicken_sandwiches: {
+    label_ar: 'ساندوتش دجاج',
+    label_en: 'chicken sandwiches',
+    items: [
+      { name_ar: 'دي كلاسيك',              name_en: 'D Classic',        S: 125, L: 155 },
+      { name_ar: 'تشيكن دي رانش',          name_en: 'Chicken D Ranch',  S: 130, L: 165 },
+      { name_ar: 'تشيك زنجر',              name_en: 'Chick Zinger',     S: 130, L: 165 },
+      { name_ar: 'هوت كرانش',              name_en: 'Hot Crunch',       S: 135, L: 180 },
+      { name_ar: 'تشيكن باربكيو',          name_en: 'Chicken BBQ',      S: 150, L: 180 },
+      { name_ar: 'تشيكن مشروم',            name_en: 'Chicken Mushroom', S: 160, L: 180 },
+      { name_ar: 'تيستي تشيكن',            name_en: 'Testy Chicken',    S: 135, L: 165 },
+      { name_ar: 'كاوبوي تشيكن',           name_en: 'Cowboy Chicken',   S: 165, L: 190 },
+      { name_ar: 'تشيكن كرانشي (عادي أو حار)', name_en: 'Chicken Crunchy', price: 150 },
+    ],
+  },
+};
+
 // ─── وصف مختصر لكل قسم بالعربي ──────────────────────────────────────────────
 function descriptionFor(catKey) {
   const descriptions = {
-    pizza:      'عجينة طازجة وجبنة موتزاريلا مع صوص البيت',
-    tasa:       'تقدم ساخنة في طاسة كلاسيكية',
-    pasta:      'باستا مطبوخة بعناية مع صوص البيت',
-    calzone:    'معجنات محشوة ومخبوزة على أصول',
-    pie_savory: 'فطير إسكندراني مقرمش بحشوة مالحة',
-    pie_sweet:  'فطير إسكندراني مقرمش بحشوة حلوة',
-    roll:       'صاروخ محشي ومحمر على الوجه',
-    drinks:     'مشروبات باردة ومنعشة',
-    add:        'إضافة على طلبك',
+    wraps:              'ملفوف طازة بمكونات مختارة ولفة خبز تورتيلا',
+    strips:              'قطع دجاج كرسپي مقرمشة تقدم مع الصوص',
+    fried_chicken:        'وجبات دجاج مقرمش بأحجام مختلفة تناسب الفرد أو العيلة',
+    appetizers:           'مقبلات ساخنة ومقرمشة تفتح النفس',
+    crepes:               'كريب طازة بحشوات متنوعة مالحة',
+    tasa:                 'تقدم ساخنة في طاسة كلاسيكية',
+    beverages:             'مشروبات باردة ومنعشة',
+    beef_sandwiches:       'برجر لحم طازة مشوي بصوصات مميزة',
+    chicken_sandwiches:    'ساندوتش دجاج كرسپي بصوصات وحجم يناسبك',
   };
   return descriptions[catKey] || 'من مطبخنا بأيدي أمينة';
 }
 
-// ─── استخراج الفئات من بيانات الـ API ────────────────────────────────────────
+// ─── استخراج الفئات من بيانات المنيو الثابتة ─────────────────────────────────
 function parseCategories(menuData) {
   if (!menuData) return [];
-  const menu =
-    menuData && typeof menuData === 'object' && menuData.menu && !Array.isArray(menuData.menu)
-      ? menuData.menu
-      : menuData;
-
-  return Object.entries(menu)
+  return Object.entries(menuData)
     .filter(([, cat]) => cat?.items?.length)
     .map(([key, cat]) => ({
       key,
       label_ar: cat.label_ar,
       label_en: (cat.label_en || key).toUpperCase(),
-      img: CATEGORY_IMAGES[key] || CATEGORY_IMAGES.pizza,
+      img: CATEGORY_IMAGES[key] || CATEGORY_IMAGES.fried_chicken,
       items: cat.items,
     }));
 }
@@ -98,19 +230,6 @@ function buildWhatsAppMessage(cart, total) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Skeletons
-// ═══════════════════════════════════════════════════════════════════════════
-function SkeletonCategoryGrid() {
-  return (
-    <div className="cat-grid">
-      {[...Array(6)].map((_, i) => (
-        <div key={i} className="cat-card sk-shine" style={{ backgroundImage: 'none' }} />
-      ))}
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
 // كارت المنتج (صفحة التفاصيل)
 // ═══════════════════════════════════════════════════════════════════════════
 function ProductCard({ item, catKey, selectedVariant, onSelectVariant, onAdd, justAdded }) {
@@ -124,7 +243,7 @@ function ProductCard({ item, catKey, selectedVariant, onSelectVariant, onAdd, ju
     <div className="product-card">
       <div className="product-card-img-wrap">
         <img
-          src={CATEGORY_IMAGES[catKey] || CATEGORY_IMAGES.pizza}
+          src={CATEGORY_IMAGES[catKey] || CATEGORY_IMAGES.fried_chicken}
           alt={item.name_ar}
           className="product-card-img"
           onError={handleImgError}
@@ -168,9 +287,8 @@ function ProductCard({ item, catKey, selectedVariant, onSelectVariant, onAdd, ju
 // الكومبوننت الرئيسي
 // ═══════════════════════════════════════════════════════════════════════════
 export default function MenuSection() {
-  const [menuData, setMenuData] = useState(null);
-  const [loading, setLoading]   = useState(true);
-  const [error, setError]       = useState(null);
+  // البيانات ستاتيك بالكامل — من غير fetch ولا loading ولا error state
+  const categories = useMemo(() => parseCategories(MENU_DATA), []);
 
   const [view, setView]               = useState('categories'); // 'categories' | 'detail'
   const [activeCategoryKey, setActiveCategoryKey] = useState(null);
@@ -180,33 +298,6 @@ export default function MenuSection() {
   const [cart, setCart]         = useState([]); // [{ uid, catKey, name_ar, variantKey, variantLabel, price, qty }]
   const [cartOpen, setCartOpen] = useState(false);
 
-  useEffect(() => {
-    fetch('/api/data')
-      .then((r) => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.json();
-      })
-      .then((data) => {
-        let rawMenu = null;
-        if (data?.menu && Array.isArray(data.menu)) {
-          rawMenu = data.menu[0]?.menu ?? data.menu[0] ?? null;
-        } else if (Array.isArray(data)) {
-          rawMenu = data[0]?.menu ?? data[0] ?? null;
-        } else if (data?.menu && !Array.isArray(data.menu)) {
-          rawMenu = data.menu;
-        } else {
-          rawMenu = data;
-        }
-        setMenuData(rawMenu);
-        setLoading(false);
-      })
-      .catch((e) => {
-        setError(e.message);
-        setLoading(false);
-      });
-  }, []);
-
-  const categories = useMemo(() => parseCategories(menuData), [menuData]);
   const activeCategory = categories.find((c) => c.key === activeCategoryKey) || null;
 
   const cartCount = cart.reduce((sum, c) => sum + c.qty, 0);
@@ -232,7 +323,7 @@ export default function MenuSection() {
           cartId,
           catKey,
           name_ar: item.name_ar,
-          img: CATEGORY_IMAGES[catKey] || CATEGORY_IMAGES.pizza,
+          img: CATEGORY_IMAGES[catKey] || CATEGORY_IMAGES.fried_chicken,
           variantKey: variant.key,
           variantLabel: variant.label,
           price: variant.price,
@@ -274,7 +365,7 @@ export default function MenuSection() {
         .ms-eyebrow { text-align: center; margin-bottom: 40px; padding: 0 24px; }
         .ms-eyebrow-rule { display: flex; align-items: center; gap: 20px; max-width: 480px; margin: 0 auto; }
         .ms-eyebrow-rule-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, #c8a882, transparent); display: block; }
-        .ms-eyebrow-tag { font-size: 1rem; font-weight: 700; letter-spacing: 0.22em; color: #ff4c0d; text-transform: uppercase; flex-shrink: 0; }
+        .ms-eyebrow-tag { font-size: 1rem; font-weight: 700; letter-spacing: 0.22em; color: #DC2626; text-transform: uppercase; flex-shrink: 0; }
 
         .ms-grid-wrapper { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
 
@@ -282,7 +373,7 @@ export default function MenuSection() {
         .cart-fab {
           position: fixed; top: 100px; left: 20px; z-index: 40;
           width: 52px; height: 52px; border-radius: 50%;
-          background: #1a0a00; color: #fff; border: none; cursor: pointer;
+          background: #DC2626; color: #fff; border: none; cursor: pointer;
           display: flex; align-items: center; justify-content: center;
           box-shadow: 0 8px 20px rgba(0,0,0,0.18);
           transition: transform 0.2s;
@@ -290,10 +381,10 @@ export default function MenuSection() {
         .cart-fab:hover { transform: scale(1.06); }
         .cart-fab-badge {
           position: absolute; top: -4px; right: -4px;
-          background: #ff4c0d; color: #fff; font-size: 11px; font-weight: 800;
+          background: #ffffff; color: #DC2626; font-size: 11px; font-weight: 800;
           min-width: 20px; height: 20px; border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
-          padding: 0 4px; border: 2px solid #fafaf8;
+          padding: 0 4px; border: 2px solid #DC2626;
         }
 
         /* ── شبكة الفئات ── */
@@ -366,7 +457,7 @@ export default function MenuSection() {
           white-space: nowrap;
           transition: all 0.2s;
         }
-        .pill.active { background: #ff4c0d; border-color: #ff4c0d; color: #fff; }
+        .pill.active { background: #DC2626; border-color: #DC2626; color: #fff; }
 
         .detail-header {
           display: flex; align-items: center; justify-content: space-between;
@@ -376,14 +467,14 @@ export default function MenuSection() {
           font-family: 'Amiri', serif;
           font-size: clamp(1.8rem, 4vw, 2.6rem);
           font-weight: 700;
-          color: #ff4c0d;
+          color: #DC2626;
         }
         .back-link {
           background: none; border: none; cursor: pointer;
           font-size: 13px; font-weight: 700; color: #9a8b7a;
           display: flex; align-items: center; gap: 4px;
         }
-        .back-link:hover { color: #ff4c0d; }
+        .back-link:hover { color: #DC2626; }
 
         .product-grid {
           display: grid;
@@ -404,7 +495,7 @@ export default function MenuSection() {
         .product-card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .product-card-body { padding: 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
         .product-card-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-        .product-card-price { font-size: 12px; font-weight: 800; color: #ff4c0d; white-space: nowrap; }
+        .product-card-price { font-size: 12px; font-weight: 800; color: #DC2626; white-space: nowrap; }
         .product-card-name { font-size: 14px; font-weight: 700; color: #1a0a00; text-align: left; }
         .product-card-desc { font-size: 11.5px; color: #a89a8c; line-height: 1.5; min-height: 32px; }
 
@@ -415,16 +506,16 @@ export default function MenuSection() {
           padding: 5px 12px; border-radius: 100px; cursor: pointer;
           transition: all 0.15s;
         }
-        .size-chip.active { background: #1a0a00; border-color: #1a0a00; color: #fff; }
+        .size-chip.active { background: #DC2626; border-color: #DC2626; color: #fff; }
 
         .add-btn {
           margin-top: auto;
-          background: #1a0a00; color: #fff; border: none;
+          background: #DC2626; color: #fff; border: none;
           font-size: 13px; font-weight: 700;
           padding: 11px; border-radius: 10px; cursor: pointer;
           transition: background 0.2s;
         }
-        .add-btn:hover { background: #ff4c0d; }
+        .add-btn:hover { background: #b91c1c; }
         .add-btn.added { background: #2f9e44; }
 
         /* ── شريط السلة العائم أسفل الصفحة ── */
@@ -436,7 +527,7 @@ export default function MenuSection() {
         }
         .checkout-bar {
           pointer-events: auto;
-          background: #1a0a00;
+          background: #DC2626;
           color: #fff;
           border-radius: 100px;
           display: flex; align-items: center; gap: 14px;
@@ -445,13 +536,13 @@ export default function MenuSection() {
           max-width: 460px; width: 100%;
         }
         .checkout-bar-count {
-          font-size: 12px; font-weight: 700; color: #d8c9b8; white-space: nowrap;
+          font-size: 12px; font-weight: 700; color: #ffe5e5; white-space: nowrap;
         }
         .checkout-bar-total {
           font-size: 14px; font-weight: 800; margin-inline-start: auto; white-space: nowrap;
         }
         .checkout-bar-btn {
-          background: #ff4c0d; color: #fff; border: none;
+          background: #25D366; color: #fff; border: none;
           font-size: 13px; font-weight: 700;
           padding: 11px 18px; border-radius: 100px; cursor: pointer;
           display: flex; align-items: center; gap: 8px; white-space: nowrap;
@@ -479,7 +570,7 @@ export default function MenuSection() {
         .cart-line-body { flex: 1; min-width: 0; }
         .cart-line-name { font-size: 13px; font-weight: 700; color: #1a0a00; }
         .cart-line-variant { font-size: 11px; color: #a89a8c; }
-        .cart-line-price { font-size: 12px; font-weight: 700; color: #ff4c0d; margin-top: 2px; }
+        .cart-line-price { font-size: 12px; font-weight: 700; color: #DC2626; margin-top: 2px; }
         .qty-stepper { display: flex; align-items: center; gap: 8px; }
         .qty-btn {
           width: 26px; height: 26px; border-radius: 50%; border: 1px solid #eadfd2;
@@ -495,15 +586,7 @@ export default function MenuSection() {
           font-size: 14px; font-weight: 700; padding: 14px; border-radius: 12px; cursor: pointer;
         }
 
-        /* ── Skeleton ── */
-        @keyframes sk-shimmer { 0% { background-position: -600px 0; } 100% { background-position: 600px 0; } }
-        .sk-shine {
-          background: linear-gradient(90deg, #f0ede8 25%, #ffe5da 50%, #f0ede8 75%);
-          background-size: 600px 100%;
-          animation: sk-shimmer 1.6s ease-in-out infinite;
-        }
-
-        .ms-error { text-align: center; color: #ff4c0d; padding: 60px 24px; font-size: 14px; }
+        .ms-error { text-align: center; color: #DC2626; padding: 60px 24px; font-size: 14px; }
       `}</style>
 
       {/* زرار السلة العائم */}
@@ -528,11 +611,7 @@ export default function MenuSection() {
       </div>
 
       <div className="ms-grid-wrapper">
-        {loading ? (
-          <SkeletonCategoryGrid />
-        ) : error ? (
-          <p className="ms-error">حدث خطأ في تحميل المينيو</p>
-        ) : view === 'categories' ? (
+        {view === 'categories' ? (
           <div className="cat-grid">
             {categories.map((cat) => (
               <button

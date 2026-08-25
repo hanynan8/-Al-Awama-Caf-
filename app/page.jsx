@@ -8,37 +8,39 @@ import ScrollerSection from './components/Scroller';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const HERO_IMG =
-  'https://github.com/hanynan8/forImages/blob/main/ChatGPT%20Image%20Jul%2018,%202026,%2003_10_13%20AM.png?raw=true';
+const HERO_IMG = '/back.png';
 
 const pizzas = [
   {
     id: 1,
-    name: 'فطيرة العيلة',
+    name: 'برجر العيلة',
     price: '٣٥٠ جنيه',
-    ingredients: ' ربع رانش · ربع باربيكو · ربع لحمة مفرومة · ربع سجق كيري',
-    img: 'https://github.com/hanynan8/forImages/blob/main/ChatGPT%20Image%20Jul%2017,%202026,%2008_57_04%20AM.png?raw=true',
+    ingredients: 'دبل لحمة · شيدر · بصل مشوي · خس · طماطم · مخلل · صوص خاص',
+    img: '/h1.png',
   },
+
   {
     id: 2,
-    name: 'فطيرة الاكيل',
+    name: 'برجر تشيكن كرانشي',
     price: '٣٥٠ جنيه',
-    ingredients: 'ربع مكس جبن · ربع مكس مدخنات · ربع مكس فراخ · ربع مكس لحوم',
-    img: 'https://github.com/hanynan8/forImages/blob/main/ChatGPT%20Image%20Jul%2017,%202026,%2008_58_19%20AM.png?raw=true',
+    ingredients: 'دبل تشيكن كرانشي · شيدر · خس · مخلل · صوص رانش',
+    img: '/h4.png',
   },
+
   {
     id: 3,
-    name: 'فطيرة الملوك',
+    name: 'برجر BBQ',
     price: '٣٩٩ جنيه',
-    ingredients: 'دجاج مشوي · جبنة بيضاء · موتزاريلا · فلفل ألوان · صوص ثوم · زيتون أسود',
-    img: 'https://github.com/hanynan8/forImages/blob/main/ChatGPT%20Image%20Jul%2017,%202026,%2008_59_43%20AM.png?raw=true',
+    ingredients: 'دبل لحمة · بيكون · شيدر · بصل مشوي · صوص باربيكو',
+    img: '/h3.png',
   },
+
   {
     id: 0,
-    name: 'فطيرة كاس العالم',
+    name: 'برجر ديجا الخاص',
     price: '٣٥٠ جنيه',
-    ingredients: 'لحمة مفرومة · سجق · بسطرمة · سوسيس · جبنة كيري · موتزاريلا',
-    img: 'https://github.com/hanynan8/forImages/blob/main/ChatGPT%20Image%20Jul%2017,%202026,%2009_53_49%20AM.png?raw=true',
+    ingredients: 'دبل لحمة · شيدر سايح · بصل كاراميل · خس · طماطم · مخلل · صوص ديجا الخاص',
+    img: '/h2.png',
   },
 ];
 
@@ -108,13 +110,13 @@ function HeroSection() {
             e.preventDefault();
             document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' });
           }}
-          className="bg-white hover:bg-white/90 text-[#ff4c0d] font-bold px-10 py-3 transition-colors duration-200 cursor-pointer font-['Cairo'] text-base inline-block text-center no-underline"
+          className="bg-white hover:bg-white/90 text-[#DC2626] font-bold px-10 py-3 transition-colors duration-200 cursor-pointer font-['Cairo'] text-base inline-block text-center no-underline"
         >
           تصفح المينيو
         </a>
       </section>
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <div className="w-[600px] h-[600px] rounded-full bg-[#e8a020]/5 blur-[120px]" />
+        <div className="w-[600px] h-[600px] rounded-full bg-[#DC2626]/5 blur-[120px]" />
       </div>
     </main>
   );
@@ -335,11 +337,11 @@ function PizzaSection() {
           .ps-corner.pos-br { bottom:72px; right:40px; }
           .ps-corner.pos-bl { bottom:72px; left:40px; }
 
-          .ps-corner-name-btn { background:none; border:none; padding:0; margin:0 0 2px; cursor:pointer; font-family:'Cairo',serif; font-size:clamp(1.25rem,2.3vw,1.9rem); font-weight:700; color:#ff4c0d; line-height:1.05; transition:opacity 0.2s; }
+          .ps-corner-name-btn { background:none; border:none; padding:0; margin:0 0 2px; cursor:pointer; font-family:'Cairo',serif; font-size:clamp(1.25rem,2.3vw,1.9rem); font-weight:700; color:#DC2626; line-height:1.05; transition:opacity 0.2s; }
           .ps-corner-name-btn.inactive { color:#ccc; }
-          .ps-corner-name-btn.inactive:hover { color:#ff4c0d; }
+          .ps-corner-name-btn.inactive:hover { color:#DC2626; }
           .ps-corner-price { font-family:'Cairo',sans-serif; font-size:1rem; font-weight:900; color:#1a0a00; margin-bottom:2px; }
-          .ps-corner-divider { width:28px; height:1px; background:#f0c0a8; margin-bottom:2px; }
+          .ps-corner-divider { width:28px; height:1px; background:#f4b8b8; margin-bottom:2px; }
           .ps-corner-ingredients { font-family:'Cairo',sans-serif; font-size:16px; color:#999; line-height:1.55; margin:0; }
 
           @media (max-width:768px) {
@@ -357,11 +359,11 @@ function PizzaSection() {
           .ps-center-stack { position:absolute; inset:0; display:grid; place-items:center; z-index:3; pointer-events:none; }
           .ps-ring { grid-area:1/1; border-radius:50%; pointer-events:none; }
           .ps-img-inner { grid-area:1/1; display:flex; align-items:center; justify-content:center; will-change:transform,opacity; }
-          .ps-center-img { display:block; width:min(72vw,76vh,620px); max-width:92vw; height:auto; filter:drop-shadow(0 32px 64px rgba(255,80,0,0.18)); }
+          .ps-center-img { display:block; width:min(72vw,76vh,620px); max-width:92vw; height:auto; filter:drop-shadow(0 32px 64px rgba(220,38,38,0.18)); }
 
           .ps-progress { position:absolute; bottom:14px; left:50%; transform:translateX(-50%); z-index:10; display:flex; align-items:center; gap:10px; }
           .ps-progress-dot { width:6px; height:6px; border-radius:50%; background:#ddd; transition:background 0.3s,transform 0.3s; }
-          .ps-progress-dot.active { background:#ff4c0d; transform:scale(1.4); }
+          .ps-progress-dot.active { background:#DC2626; transform:scale(1.4); }
         `}</style>
 
         <canvas ref={canvasRef} style={{ position:'absolute', inset:0, zIndex:2, pointerEvents:'none' }} />
@@ -391,8 +393,8 @@ function PizzaSection() {
         })}
 
         <div className="ps-center-stack">
-          <div className="ps-ring" style={{ width:'min(60vw,64vh,640px)', height:'min(60vw,64vh,640px)', border:'1px solid rgba(255,76,13,0.06)' }} />
-          <div className="ps-ring" style={{ width:'min(70vw,74vh,740px)', height:'min(70vw,74vh,740px)', border:'1px solid rgba(255,76,13,0.03)' }} />
+          <div className="ps-ring" style={{ width:'min(60vw,64vh,640px)', height:'min(60vw,64vh,640px)', border:'1px solid rgba(220,38,38,0.06)' }} />
+          <div className="ps-ring" style={{ width:'min(70vw,74vh,740px)', height:'min(70vw,74vh,740px)', border:'1px solid rgba(220,38,38,0.03)' }} />
           <div ref={imgInnerRef} className="ps-img-inner">
             <img src={pizza.img} alt={pizza.name} className="ps-center-img" />
           </div>

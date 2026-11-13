@@ -2,20 +2,19 @@
 
 import { useState, useMemo } from 'react';
 
-// ─── رقم واتساب المطعم (بالكود الدولي، من غير + أو أصفار زيادة) ──────────────
+// ─── رقم واتساب الكافيه (بالكود الدولي، من غير + أو أصفار زيادة) ─────────────
 const WHATSAPP_NUMBER = '201010620272';
 
-// ─── صور افتراضية لكل قسم ────────────────────────────────────────────────────
+// ─── صور افتراضية لكل قسم — دي صور ستوك مؤقتة، لازم تتستبدل بصور حقيقية ─────
 const CATEGORY_IMAGES = {
-  wraps:             'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=600&h=700&fit=crop&crop=center',
-  strips:            'https://images.unsplash.com/photo-1562967914-608f82629710?w=600&h=700&fit=crop&crop=center',
-  fried_chicken:     'https://images.unsplash.com/photo-1562967916-eb82221dfb92?w=600&h=700&fit=crop&crop=center',
-  appetizers:        'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=600&h=700&fit=crop&crop=center',
-  crepes:            'https://images.unsplash.com/photo-1519676867240-f03562e64548?w=600&h=700&fit=crop&crop=center',
-  tasa:              'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=700&fit=crop&crop=center',
-  beverages:         'https://images.unsplash.com/photo-1527960471264-932f39eb5846?w=600&h=700&fit=crop&crop=center',
-  beef_sandwiches:   'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=700&fit=crop&crop=center',
-  chicken_sandwiches:'https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=600&h=700&fit=crop&crop=center',
+  hot_drinks:    'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&h=700&fit=crop&crop=center',
+  cold_drinks:   'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=600&h=700&fit=crop&crop=center',
+  frappe:        'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&h=700&fit=crop&crop=center',
+  milkshakes:    'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&h=700&fit=crop&crop=center',
+  mocktails:     'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&h=700&fit=crop&crop=center',
+  crepes_waffles:'https://images.unsplash.com/photo-1562376552-0d160a2f238d?w=600&h=700&fit=crop&crop=center',
+  desserts:      'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=600&h=700&fit=crop&crop=center',
+  breakfast:     'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&h=700&fit=crop&crop=center',
 };
 
 const SIZE_LABELS = { S: 'صغير', M: 'وسط', L: 'كبير' };
@@ -25,7 +24,7 @@ const SIZE_ORDER = ['S', 'M', 'L'];
 const PLACEHOLDER_IMG =
   'data:image/svg+xml;utf8,' +
   encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="#f0ebe6"/><text x="50%" y="50%" font-family="sans-serif" font-size="40" text-anchor="middle" dominant-baseline="middle" fill="#c9b8a8">🍗</text></svg>`
+    `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="#f0ebe6"/><text x="50%" y="50%" font-family="sans-serif" font-size="40" text-anchor="middle" dominant-baseline="middle" fill="#c9b8a8">☕</text></svg>`
   );
 
 function handleImgError(e) {
@@ -33,138 +32,96 @@ function handleImgError(e) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// بيانات المنيو — مستخرجة من منيو Dega's (ستاتيك بالكامل)
+// بيانات المنيو — منيو منطقي لكافيه (لسه مبدئي، الأسعار تقريبية ومحتاجة
+// مراجعة/تأكيد من صاحب المكان قبل النشر النهائي).
 // ═══════════════════════════════════════════════════════════════════════════
 const MENU_DATA = {
-  wraps: {
-    label_ar: 'راب',
-    label_en: 'wraps',
+  hot_drinks: {
+    label_ar: 'مشروبات ساخنة',
+    label_en: 'hot drinks',
     items: [
-      { name_ar: 'دي تويست أورجينال',        name_en: 'D Twist Original',        price: 105 },
-      { name_ar: 'دي تويست سبايسي',          name_en: 'D Twist Spicy',           price: 105 },
-      { name_ar: 'تشيكن دي رولز',            name_en: 'Chicken D Rolls',         price: 105 },
-      { name_ar: 'تشيكن دي رولز سبايسي',     name_en: 'Chicken D Rolls Spicy',   price: 105 },
-      { name_ar: 'فاهيتا باربكيو',           name_en: 'Fahita BBQ',              price: 105 },
-      { name_ar: 'فاهيتا فاير',              name_en: 'Fahita Fire',             price: 105 },
-      { name_ar: 'تويست لحمة',               name_en: 'Twist Beef Meat',         price: 105 },
+      { name_ar: 'قهوة تركي',        name_en: 'Turkish Coffee', price: 35 },
+      { name_ar: 'إسبريسو',          name_en: 'Espresso',       price: 40 },
+      { name_ar: 'أمريكانو',         name_en: 'Americano',      price: 45 },
+      { name_ar: 'كابتشينو',         name_en: 'Cappuccino',     price: 55 },
+      { name_ar: 'لاتيه',            name_en: 'Latte',          price: 60 },
+      { name_ar: 'سبانش لاتيه',      name_en: 'Spanish Latte',  price: 75 },
+      { name_ar: 'شاي كركديه ساخن',  name_en: 'Hot Hibiscus Tea', price: 30 },
+      { name_ar: 'شاي أعشاب',        name_en: 'Herbal Tea',     price: 30 },
     ],
   },
-  strips: {
-    label_ar: 'سترپس',
-    label_en: 'strips',
+  cold_drinks: {
+    label_ar: 'مشروبات باردة',
+    label_en: 'cold drinks',
     items: [
-      { name_ar: 'ديجاز سترپس بالصوص × 3', name_en: 'Degas Strips Sauce 3', price: 165 },
-      { name_ar: 'ديجاز سترپس × 3',        name_en: 'Degas Strips 3',       price: 150 },
-      { name_ar: 'ديجاز سترپس × 5',        name_en: 'Degas Strips 5',       price: 190 },
-      { name_ar: 'ديجاز سترپس × 8',        name_en: 'Degas Strips 8',       price: 250 },
+      { name_ar: 'آيس أمريكانو',        name_en: 'Iced Americano',      price: 55 },
+      { name_ar: 'آيس لاتيه',           name_en: 'Iced Latte',          price: 70 },
+      { name_ar: 'آيس سبانش لاتيه',     name_en: 'Iced Spanish Latte',  price: 85 },
+      { name_ar: 'كركديه بارد',         name_en: 'Iced Hibiscus',       price: 45 },
+      { name_ar: 'ليموناضة بالنعناع',   name_en: 'Mint Lemonade',       price: 50 },
+      { name_ar: 'عصير مانجو طازة',     name_en: 'Fresh Mango Juice',   price: 55 },
+      { name_ar: 'عصير برتقال طازة',    name_en: 'Fresh Orange Juice',  price: 50 },
     ],
   },
-  fried_chicken: {
-    label_ar: 'دجاج مقرمش',
-    label_en: 'fried chicken',
+  frappe: {
+    label_ar: 'فرابيه',
+    label_en: 'frappe',
     items: [
-      { name_ar: 'وجبة D2 — قطعتين دجاج',    name_en: 'D2 Meal',  price: 165 },
-      { name_ar: 'وجبة D3 — 3 قطع دجاج',     name_en: 'D3 Meal',  price: 210 },
-      { name_ar: 'وجبة D5 — 5 قطع دجاج',     name_en: 'D5 Meal',  price: 280 },
-      { name_ar: 'وجبة D9 — 9 قطع دجاج',     name_en: 'D9 Meal',  price: 480 },
-      { name_ar: 'وجبة D12 — 12 قطعة دجاج',  name_en: 'D12 Meal', price: 570 },
-      { name_ar: 'وجبة D15 — 15 قطعة دجاج',  name_en: 'D15 Meal', price: 665 },
-      { name_ar: 'وجبة D18 — 18 قطعة دجاج',  name_en: 'D18 Meal', price: 770 },
-      { name_ar: 'البرمرطة',                 name_en: 'El Barmarta', price: 150 },
+      { name_ar: 'فرابيه كراميل',    name_en: 'Caramel Frappe',    price: 90 },
+      { name_ar: 'فرابيه شوكولاتة',  name_en: 'Chocolate Frappe',  price: 90 },
+      { name_ar: 'فرابيه فانيليا',   name_en: 'Vanilla Frappe',    price: 85 },
+      { name_ar: 'فرابيه بندق',      name_en: 'Hazelnut Frappe',   price: 95 },
     ],
   },
-  appetizers: {
-    label_ar: 'مقبلات',
-    label_en: 'appetizers',
+  milkshakes: {
+    label_ar: 'ميلك شيك',
+    label_en: 'milkshakes',
     items: [
-      { name_ar: 'تشيكن فرايز',           name_en: 'Chicken Fries',       price: 95  },
-      { name_ar: 'هوت دوج فرايز',         name_en: 'Hot Dog Fries',       price: 95  },
-      { name_ar: 'ماك آند تشيز',          name_en: 'Mac And Cheese',      price: 110 },
-      { name_ar: 'بطاطس كبير',            name_en: 'Fries L',             price: 45  },
-      { name_ar: 'بطاطس فاميلي',          name_en: 'Fries Family',        price: 65  },
-      { name_ar: 'أصابع هالبينو × 3',     name_en: 'Jalapeno Sticks 3',   price: 70  },
-      { name_ar: 'أصابع موتزاريلا × 3',   name_en: 'Mozzarella Sticks 3', price: 70  },
-      { name_ar: 'أونيون رينجز',          name_en: 'Onion Rings',         price: 75  },
-      { name_ar: 'ريزو فاهيتا باربكيو',   name_en: 'Fahita BBQ Rizo',     price: 95  },
-      { name_ar: 'ريزو فاهيتا فاير',      name_en: 'Fahita Fire Rizo',    price: 95  },
-      { name_ar: 'فاير ريزو',             name_en: 'Fire Rizo',           price: 95  },
-      { name_ar: 'باربكيو ريزو',          name_en: 'BBQ Rizo',            price: 95  },
-      { name_ar: 'فاميلي تشيز فرايز',     name_en: 'Family Cheese Fries', price: 85  },
-      { name_ar: 'تايجر ويجنز',           name_en: 'Tiger Wings',         price: 95  },
-      { name_ar: 'باربكيو ويجنز',         name_en: 'BBQ Wings',           price: 95  },
-      { name_ar: 'فاير ويجنز',            name_en: 'Fire Wings',          price: 95  },
-      { name_ar: 'وافل بوتيتو',           name_en: 'Waffle Potato',       price: 95  },
-      { name_ar: 'ميكس مقبلات',           name_en: 'Mix Appetizer',       price: 140 },
+      { name_ar: 'ميلك شيك فانيليا',    name_en: 'Vanilla Milkshake',   price: 85 },
+      { name_ar: 'ميلك شيك شوكولاتة',   name_en: 'Chocolate Milkshake', price: 90 },
+      { name_ar: 'ميلك شيك فراولة',     name_en: 'Strawberry Milkshake',price: 90 },
+      { name_ar: 'ميلك شيك أوريو',      name_en: 'Oreo Milkshake',      price: 95 },
     ],
   },
-  crepes: {
-    label_ar: 'كريب',
-    label_en: 'crepes',
+  mocktails: {
+    label_ar: 'موكتيلز',
+    label_en: 'mocktails',
     items: [
-      { name_ar: 'كريب ديجاز',          name_en: 'Crepe Degas',           price: 105 },
-      { name_ar: 'كريب خضار',           name_en: 'Crepe Vegetables',      price: 75  },
-      { name_ar: 'كريب بطاطس',          name_en: 'Crepe Potato',          price: 85  },
-      { name_ar: 'كريب مكس جبن',        name_en: 'Crepe Mix Cheese',      price: 95  },
-      { name_ar: 'كريب بطاطس مكس',      name_en: 'Crepe Potato Mix',      price: 105 },
-      { name_ar: 'كريب برجر مشوي',      name_en: 'Crepe Grilled Burger',  price: 110 },
-      { name_ar: 'كريب هوت دوج',        name_en: 'Crepe Hot Dog',         price: 100 },
-      { name_ar: 'كريب سجق',            name_en: 'Crepe Sausage',         price: 100 },
-      { name_ar: 'كريب فاهيتا فراخ',    name_en: 'Crepe Fahita Chicken',  price: 120 },
-      { name_ar: 'كريب مكس فراخ',       name_en: 'Crepe Mix Chicken',     price: 140 },
-      { name_ar: 'كريب زنجر',           name_en: 'Crepe Zinger',          price: 125 },
-      { name_ar: 'كريب بيكون مشوي',     name_en: 'Crepe Grilled Bacon',   price: 135 },
-      { name_ar: 'كريب تركي مدخن',      name_en: 'Crepe Smoked Turkey',   price: 135 },
-      { name_ar: 'كريب فراخ جريل',      name_en: 'Crepe Grilled Chicken', price: 120 },
-      { name_ar: 'كريب مكس لحوم',       name_en: 'Crepe Mix Meat',        price: 140 },
-      { name_ar: 'كريب السوبر',         name_en: 'Crepe Super',           price: 155 },
-      { name_ar: 'كريب جمبري',          name_en: 'Crepe Shrimp',          price: 135 },
-      { name_ar: 'كريب تونة',           name_en: 'Crepe Tuna',            price: 120 },
+      { name_ar: 'موهيتو كلاسيك',        name_en: 'Classic Mojito',     price: 70 },
+      { name_ar: 'بلوبيري موهيتو',        name_en: 'Blueberry Mojito',  price: 80 },
+      { name_ar: 'بينا كولادا فيرجن',     name_en: 'Virgin Piña Colada',price: 75 },
+      { name_ar: 'موهيتو فراولة',         name_en: 'Strawberry Mojito', price: 80 },
     ],
   },
-  tasa: {
-    label_ar: 'طاسة',
-    label_en: 'tasa',
+  crepes_waffles: {
+    label_ar: 'كريب و وافل',
+    label_en: 'crepes & waffles',
     items: [
-      { name_ar: 'طاسة فاهيتا استربس (لحمة مفرومة)', name_en: 'Fahita Strips Tasa', price: 160 },
-      { name_ar: 'طاسة نص لحم ونص فراخ',              name_en: 'Half Meat Half Chicken Tasa', price: 190 },
-      { name_ar: 'طاسة مكس فراخ',                     name_en: 'Mix Chicken Tasa', price: 195 },
+      { name_ar: 'وافل نوتيلا وموز',   name_en: 'Nutella Banana Waffle', price: 110 },
+      { name_ar: 'وافل عسل وجبنة',     name_en: 'Honey Cheese Waffle',   price: 100 },
+      { name_ar: 'كريب نوتيلا',        name_en: 'Nutella Crepe',         price: 95  },
+      { name_ar: 'كريب ميكس فواكه',    name_en: 'Mixed Fruit Crepe',     price: 105 },
+      { name_ar: 'كريب دجاج وجبنة',    name_en: 'Chicken Cheese Crepe',  price: 120 },
     ],
   },
-  beverages: {
-    label_ar: 'مشروبات',
-    label_en: 'beverages',
+  desserts: {
+    label_ar: 'حلويات',
+    label_en: 'desserts',
     items: [
-      { name_ar: 'مياه صغيرة',               name_en: 'Water S',          price: 10 },
-      { name_ar: 'كولا 1 لتر',                name_en: 'Cola 1 Liter',     price: 40 },
-      { name_ar: 'مشروب غازي كانز',           name_en: 'Soda Can',         price: 25 },
-      { name_ar: 'كومبو لارج (مشروب + بطاطس صغير)', name_en: 'Combo Large', price: 65 },
+      { name_ar: 'تشيز كيك',              name_en: 'Cheesecake',      price: 95  },
+      { name_ar: 'براونيز بالشوكولاتة',    name_en: 'Chocolate Brownie', price: 85 },
+      { name_ar: 'كيكة الشوكولاتة',        name_en: 'Chocolate Cake',  price: 90  },
+      { name_ar: 'تيراميسو',              name_en: 'Tiramisu',        price: 100 },
     ],
   },
-  beef_sandwiches: {
-    label_ar: 'ساندوتش لحم',
-    label_en: 'beef sandwiches',
+  breakfast: {
+    label_ar: 'فطار خفيف',
+    label_en: 'breakfast',
     items: [
-      { name_ar: 'تشيزي برجر',            name_en: 'Cheesy Burger',      S: 140, L: 185 },
-      { name_ar: 'ديجاز فاير برجر',        name_en: "Dega's Fire Burger", S: 145, L: 190 },
-      { name_ar: 'بيكون باربكيو',          name_en: 'Bacon BBQ',          S: 150, L: 195 },
-      { name_ar: 'تيستي مشروم',            name_en: 'Tasty Mushroom',     S: 150, L: 195 },
-      { name_ar: 'مكسدوج',                 name_en: 'Mexdog',             S: 160, L: 205 },
-      { name_ar: "سوبر ديجاز (عادي أو حار)", name_en: "Super Dega's",     price: 180 },
-    ],
-  },
-  chicken_sandwiches: {
-    label_ar: 'ساندوتش دجاج',
-    label_en: 'chicken sandwiches',
-    items: [
-      { name_ar: 'دي كلاسيك',              name_en: 'D Classic',        S: 125, L: 155 },
-      { name_ar: 'تشيكن دي رانش',          name_en: 'Chicken D Ranch',  S: 130, L: 165 },
-      { name_ar: 'تشيك زنجر',              name_en: 'Chick Zinger',     S: 130, L: 165 },
-      { name_ar: 'هوت كرانش',              name_en: 'Hot Crunch',       S: 135, L: 180 },
-      { name_ar: 'تشيكن باربكيو',          name_en: 'Chicken BBQ',      S: 150, L: 180 },
-      { name_ar: 'تشيكن مشروم',            name_en: 'Chicken Mushroom', S: 160, L: 180 },
-      { name_ar: 'تيستي تشيكن',            name_en: 'Testy Chicken',    S: 135, L: 165 },
-      { name_ar: 'كاوبوي تشيكن',           name_en: 'Cowboy Chicken',   S: 165, L: 190 },
-      { name_ar: 'تشيكن كرانشي (عادي أو حار)', name_en: 'Chicken Crunchy', price: 150 },
+      { name_ar: 'كرواسون زبدة',           name_en: 'Butter Croissant',    price: 45 },
+      { name_ar: 'توست جبنة وزيتون',       name_en: 'Cheese & Olive Toast',price: 55 },
+      { name_ar: 'سندوتش تونة صغير',       name_en: 'Mini Tuna Sandwich',  price: 65 },
+      { name_ar: 'سندوتش جبنة حلوم',       name_en: 'Halloumi Sandwich',   price: 65 },
     ],
   },
 };
@@ -172,15 +129,14 @@ const MENU_DATA = {
 // ─── وصف مختصر لكل قسم بالعربي ──────────────────────────────────────────────
 function descriptionFor(catKey) {
   const descriptions = {
-    wraps:              'ملفوف طازة بمكونات مختارة ولفة خبز تورتيلا',
-    strips:              'قطع دجاج كرسپي مقرمشة تقدم مع الصوص',
-    fried_chicken:        'وجبات دجاج مقرمش بأحجام مختلفة تناسب الفرد أو العيلة',
-    appetizers:           'مقبلات ساخنة ومقرمشة تفتح النفس',
-    crepes:               'كريب طازة بحشوات متنوعة مالحة',
-    tasa:                 'تقدم ساخنة في طاسة كلاسيكية',
-    beverages:             'مشروبات باردة ومنعشة',
-    beef_sandwiches:       'برجر لحم طازة مشوي بصوصات مميزة',
-    chicken_sandwiches:    'ساندوتش دجاج كرسپي بصوصات وحجم يناسبك',
+    hot_drinks:     'مشروبات ساخنة تتحضر لحظة بلحظة بخلطات مختارة',
+    cold_drinks:    'مشروبات باردة ومنعشة تناسب جو أسوان',
+    frappe:         'فرابيه بارد ومخفوق بطبقة كريمة فوق',
+    milkshakes:     'ميلك شيك كريمي بطعم غني',
+    mocktails:      'موكتيلز منعشة من غير كحول بطعم مختلف',
+    crepes_waffles: 'كريب ووافل طازة تتحضر وقت الطلب',
+    desserts:       'حلويات طازة تقدم مع مشروبك المفضل',
+    breakfast:      'فطار خفيف يناسب الصبح على النيل',
   };
   return descriptions[catKey] || 'من مطبخنا بأيدي أمينة';
 }
@@ -194,7 +150,7 @@ function parseCategories(menuData) {
       key,
       label_ar: cat.label_ar,
       label_en: (cat.label_en || key).toUpperCase(),
-      img: CATEGORY_IMAGES[key] || CATEGORY_IMAGES.fried_chicken,
+      img: CATEGORY_IMAGES[key] || CATEGORY_IMAGES.hot_drinks,
       items: cat.items,
     }));
 }
@@ -243,7 +199,7 @@ function ProductCard({ item, catKey, selectedVariant, onSelectVariant, onAdd, ju
     <div className="product-card">
       <div className="product-card-img-wrap">
         <img
-          src={CATEGORY_IMAGES[catKey] || CATEGORY_IMAGES.fried_chicken}
+          src={CATEGORY_IMAGES[catKey] || CATEGORY_IMAGES.hot_drinks}
           alt={item.name_ar}
           className="product-card-img"
           onError={handleImgError}
@@ -323,7 +279,7 @@ export default function MenuSection() {
           cartId,
           catKey,
           name_ar: item.name_ar,
-          img: CATEGORY_IMAGES[catKey] || CATEGORY_IMAGES.fried_chicken,
+          img: CATEGORY_IMAGES[catKey] || CATEGORY_IMAGES.hot_drinks,
           variantKey: variant.key,
           variantLabel: variant.label,
           price: variant.price,
@@ -362,10 +318,11 @@ export default function MenuSection() {
           min-height: 100vh;
         }
 
-        .ms-eyebrow { text-align: center; margin-bottom: 40px; padding: 0 24px; }
+        .ms-eyebrow { text-align: center; margin-bottom: 12px; padding: 0 24px; }
         .ms-eyebrow-rule { display: flex; align-items: center; gap: 20px; max-width: 480px; margin: 0 auto; }
         .ms-eyebrow-rule-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, #c8a882, transparent); display: block; }
         .ms-eyebrow-tag { font-size: 1rem; font-weight: 700; letter-spacing: 0.22em; color: #DC2626; text-transform: uppercase; flex-shrink: 0; }
+        .ms-eyebrow-note { text-align: center; font-size: 12px; color: #b3a596; margin: 10px 0 28px; }
 
         .ms-grid-wrapper { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
 
@@ -609,6 +566,7 @@ export default function MenuSection() {
           <span className="ms-eyebrow-rule-line" />
         </div>
       </div>
+      <p className="ms-eyebrow-note">* الأسعار تقريبية وقابلة للتغيير، محتاجة مراجعة قبل الاعتماد النهائي</p>
 
       <div className="ms-grid-wrapper">
         {view === 'categories' ? (

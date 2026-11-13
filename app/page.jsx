@@ -10,38 +10,41 @@ gsap.registerPlugin(ScrollTrigger);
 
 const HERO_IMG = '/back.png';
 
+// ─── منتجاتنا المميزة (بتتعرض في السلايدر تحت الهيرو) ─────────────────────────
+// ملحوظة: الصور دي لسه أماكن فاضية (h1.png..h4.png) — لازم تتستبدل بصور حقيقية
+// لمشروبات Degas Cafe.
 const pizzas = [
-  {
-    id: 1,
-    name: 'برجر العيلة',
-    price: '٣٥٠ جنيه',
-    ingredients: 'دبل لحمة · شيدر · بصل مشوي · خس · طماطم · مخلل · صوص خاص',
-    img: '/h1.png',
-  },
+{
+  id: 1,
+  name: 'آيس لاتيه',
+  price: '٨٥ جنيه',
+  ingredients: 'إسبريسو · حليب بارد · مكعبات ثلج · لمسة فانيليا',
+  img: '/h1.png',
+},
 
-  {
-    id: 2,
-    name: 'برجر تشيكن كرانشي',
-    price: '٣٥٠ جنيه',
-    ingredients: 'دبل تشيكن كرانشي · شيدر · خس · مخلل · صوص رانش',
-    img: '/h4.png',
-  },
+{
+  id: 2,
+  name: 'موخيتو ليمون ونعناع',
+  price: '٧٠ جنيه',
+  ingredients: 'ليمون طازج · نعناع · صودا · ثلج · سيروب موهيتو',
+  img: '/h2.png',
+},
 
-  {
-    id: 3,
-    name: 'برجر BBQ',
-    price: '٣٩٩ جنيه',
-    ingredients: 'دبل لحمة · بيكون · شيدر · بصل مشوي · صوص باربيكو',
-    img: '/h3.png',
-  },
+{
+  id: 3,
+  name: 'فرابيه شوكولاتة',
+  price: '٩٥ جنيه',
+  ingredients: 'قهوة إسبريسو · حليب · صوص شوكولاتة · ثلج · كريمة مخفوقة',
+  img: '/h3.png',
+},
 
-  {
-    id: 0,
-    name: 'برجر ديجا الخاص',
-    price: '٣٥٠ جنيه',
-    ingredients: 'دبل لحمة · شيدر سايح · بصل كاراميل · خس · طماطم · مخلل · صوص ديجا الخاص',
-    img: '/h2.png',
-  },
+{
+  id: 4,
+  name: 'مانجو سموثي',
+  price: '٨٥ جنيه',
+  ingredients: 'مانجو طازجة · عصير مانجو · ثلج · قوام كريمي منعش',
+  img: '/h4.png',
+},
 ];
 
 // كل الصور اللي محتاجين نحملها من أول ما الصفحة تفتح
@@ -78,39 +81,13 @@ function HeroSection() {
       }}
     >
       <section className="relative z-10 flex flex-col items-center justify-center flex-1 text-center px-4 mb-16">
-        <h1 className="flex items-baseline gap-3 mb-4 select-none">
-          <span className="relative font-['Amiri'] text-[clamp(4rem,9vw,13rem)] font-normal leading-none text-[white]">
-            جدو
-            <svg className="absolute bottom-0 right-0 w-full" height="4" style={{ overflow: 'visible' }}>
-              <line x1="32%" y1="-20" x2="72%" y2="-20" stroke="white" strokeWidth="2.5" />
-              <text x="24%" y="0" textAnchor="middle" fill="white" fontSize="80" fontWeight="700" fontFamily="'Amiri', serif">ُ</text>
-            </svg>
-          </span>
-          <span className="relative font-['Amiri'] text-[clamp(4rem,9vw,13rem)] font-normal leading-none text-[white]">
-            عبدو
-            <svg className="absolute bottom-0 right-0 w-full" height="4" style={{ overflow: 'visible' }}>
-              <line x1="27%" y1="-500%" x2="56%" y2="-500%" stroke="white" strokeWidth="2.5" />
-              <text x="23%" y="0" textAnchor="middle" fill="white" fontSize="80" fontWeight="700" fontFamily="'Amiri', serif">ُ</text>
-            </svg>
-          </span>
-        </h1>
-        <div className="flex items-center gap-3 mb-2">
-          <span className="block w-12 h-[1px] bg-white/40" />
-          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white/40 fill-current" aria-hidden="true">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.93V15h2v1.93c-0.32 0.05-0.66 0.07-1 0.07s-0.68-0.02-1-0.07zm4.92-1.45l-1.37-1.37c0.26-0.44 0.45-0.93 0.45-1.11 0-1.1-0.9-2-2-2s-2 0.9-2 2c0 0.18 0.19 0.67 0.45 1.11l-1.37 1.37C9.27 14.46 9 13.26 9 12c0-1.66 1.34-3 3-3s3 1.34 3 3c0 1.26-0.27 2.46-1.08 3.48zM6.34 17.66l1.41-1.41c0.78 0.78 1.8 1.25 2.25 1.25v2c-1.38 0-2.63-0.56-3.66-1.84zM5 12c0-0.34 0.02-0.68 0.07-1H7v2H5.07C5.02 12.68 5 12.34 5 12zm2.75-4.66L6.34 6.34C7.37 5.06 8.62 4.5 10 4.5v2c-0.45 0-1.47 0.47-2.25 1.25zM11 7.07V5.07c0.32-0.05 0.66-0.07 1-0.07s0.68 0.02 1 0.07v2c-0.32-0.05-0.66-0.07-1-0.07s-0.68 0.02-1 0.07z" />
-          </svg>
-          <span className="block w-12 h-[1px] bg-white/40" />
-        </div>
-        <p ref={taglineRef} className="font-['Cairo'] max-w-xs text-[17px] leading-relaxed text-white/80 mb-6" style={{ opacity: 0 }}>
-          أكل يفرحك و مود يريحك🧡
-        </p>
         <a
         href="#menu"
           onClick={(e) => {
             e.preventDefault();
             document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' });
           }}
-          className="bg-white hover:bg-white/90 text-[#DC2626] font-bold px-10 py-3 transition-colors duration-200 cursor-pointer font-['Cairo'] text-base inline-block text-center no-underline"
+          className="bg-white hover:bg-white/90 text-[#DC2626] mt-[800px] font-bold px-10 py-3 transition-colors duration-200 cursor-pointer font-['Cairo'] text-base inline-block text-center no-underline"
         >
           تصفح المينيو
         </a>
@@ -123,7 +100,7 @@ function HeroSection() {
 }
 
 // ─────────────────────────────────────────────
-// PIZZA SECTION
+// PIZZA SECTION (سلايدر المنتجات المميزة)
 // Scroll tracking: ScrollTrigger (instead of manual scroll listener + rAF)
 // Slide transition: gsap.timeline() (instead of the setTimeout state machine)
 // Corner text fade: gsap.to() (instead of a CSS opacity transition keyed off state)
@@ -144,12 +121,13 @@ function PizzaSection() {
 
   useEffect(() => { currentRef.current = current; }, [current]);
 
+  // صور الجزيئات اللي بتتطاير وقت تغيير السلايد — قهوة / كوكيز / كيكة
   const INGREDIENT_IMAGES = useRef({});
   useEffect(() => {
     const urls = {
-      meat:    'https://em-content.zobj.net/source/apple/354/cut-of-meat_1f969.png',
-      cheese:  'https://em-content.zobj.net/source/apple/354/cheese-wedge_1f9c0.png',
-      chicken: 'https://em-content.zobj.net/source/apple/354/poultry-leg_1f357.png',
+      coffee: 'https://em-content.zobj.net/source/apple/354/hot-beverage_2615.png',
+      cookie: 'https://em-content.zobj.net/source/apple/354/cookie_1f36a.png',
+      cake:   'https://em-content.zobj.net/source/apple/354/shortcake_1f370.png',
     };
     Object.entries(urls).forEach(([key, url]) => {
       const img = new Image();
@@ -166,7 +144,7 @@ function PizzaSection() {
     const cx = canvas.width / 2;
     const cy = canvas.height / 2;
     const newP = [];
-    const types = ['meat', 'cheese', 'chicken', 'meat', 'cheese', 'meat', 'chicken', 'cheese'];
+    const types = ['coffee', 'cookie', 'cake', 'coffee', 'cookie', 'coffee', 'cake', 'cookie'];
     types.forEach((type) => {
       const angle = -Math.PI / 2 + (Math.random() - 0.5) * (Math.PI * 0.8);
       const speed = 10 + Math.random() * 14;
@@ -359,7 +337,11 @@ function PizzaSection() {
           .ps-center-stack { position:absolute; inset:0; display:grid; place-items:center; z-index:3; pointer-events:none; }
           .ps-ring { grid-area:1/1; border-radius:50%; pointer-events:none; }
           .ps-img-inner { grid-area:1/1; display:flex; align-items:center; justify-content:center; will-change:transform,opacity; }
-          .ps-center-img { display:block; width:min(72vw,76vh,620px); max-width:92vw; height:auto; filter:drop-shadow(0 32px 64px rgba(220,38,38,0.18)); }
+          .ps-center-img { display:block; width:min(46vw,50vh,380px); max-width:72vw; height:auto; filter:drop-shadow(0 32px 64px rgba(220,38,38,0.18)); }
+
+          @media (max-width:768px) {
+            .ps-center-img { width:min(58vw,42vh,260px); max-width:80vw; }
+          }
 
           .ps-progress { position:absolute; bottom:14px; left:50%; transform:translateX(-50%); z-index:10; display:flex; align-items:center; gap:10px; }
           .ps-progress-dot { width:6px; height:6px; border-radius:50%; background:#ddd; transition:background 0.3s,transform 0.3s; }
@@ -414,7 +396,7 @@ function PizzaSection() {
 // PAGE EXPORT
 // ─────────────────────────────────────────────
 export default function Page() {
-  // نحمّل كل صور الهيرو والبيتزا مرة واحدة من أول ما الصفحة تفتح،
+  // نحمّل كل صور الهيرو والمنتجات مرة واحدة من أول ما الصفحة تفتح،
   // عشان لما اليوزر يوصلهم بالـ scroll يكونوا جاهزين في كاش المتصفح فورًا.
   useEffect(() => {
     ALL_PRELOAD_IMAGES.forEach((src) => {

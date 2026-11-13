@@ -1,11 +1,15 @@
 'use client';
 
+// ملحوظة: صورة اللوجو دي لسه مكان فاضي — لازم تتستبدل بلوجو Degas Cafe الحقيقي.
 const LOGO_URL = '/logo.jpg';
 
-const FACEBOOK_URL  = 'https://www.facebook.com/profile.php?id=100069898883820';
-const INSTAGRAM_URL = 'https://www.instagram.com/degas.eg/';
+// بيانات حقيقية من صفحة الفيسبوك الرسمية لـ Degas Cafe
+const FACEBOOK_URL  = 'https://www.facebook.com/p/Degas-Cafe-61583519562535/';
+// مفيش حساب انستجرام مؤكد للكافيه لحد دلوقتي، فسبناه فاضي عشان منحطش لينك غلط
+const INSTAGRAM_URL = '';
 const PHONE_DISPLAY = '+20 10 10620272';
 const PHONE_TEL     = '+201010620272';
+const FB_FOLLOWERS  = '1.3K+';
 
 export default function Footer() {
   return (
@@ -117,24 +121,26 @@ export default function Footer() {
           {/* ── Brand ── */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-              <img src={LOGO_URL} alt="Dega's Aswan" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
+              <img src={LOGO_URL} alt="Degas Cafe Aswan" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <p className="f-brand-name" style={{ margin: 0, fontSize: 26, letterSpacing: '0.02em', fontFamily: "'Cairo', sans-serif" }}>Dega&apos;s Aswan</p>
+                <p className="f-brand-name" style={{ margin: 0, fontSize: 26, letterSpacing: '0.02em', fontFamily: "'Cairo', sans-serif" }}>Degas Cafe</p>
                 <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.9)', textTransform: 'uppercase' }}>Aswan · Egypt</span>
               </div>
             </div>
-            <p className="f-brand-sub">أول براند في أسوان متخصص في الفرايد تشيكن والبرجر، والكريب، والمكرونات، والطاسة.</p>
+            <p className="f-brand-sub">كافيه على كورنيش النيل بجوار المحكمة، لقهوة تجمعك مع الأصحاب وهدوء يريح البال.</p>
             <div className="f-social">
               <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer" className="f-social-btn" aria-label="Facebook">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
               </a>
-              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="f-social-btn" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                  <circle cx="12" cy="12" r="4"/>
-                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-                </svg>
-              </a>
+              {INSTAGRAM_URL && (
+                <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="f-social-btn" aria-label="Instagram">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                    <circle cx="12" cy="12" r="4"/>
+                    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+                  </svg>
+                </a>
+              )}
             </div>
           </div>
 
@@ -149,7 +155,7 @@ export default function Footer() {
                     <circle cx="12" cy="10" r="3"/>
                   </svg>
                 </span>
-                <span className="f-info-text">مول بلازا، الدور الثالث<br/>الفود كورت، أسوان، مصر</span>
+                <span className="f-info-text">كورنيش النيل، بجوار المحكمة<br/>بجوار فندق النيل، أسوان، مصر</span>
               </div>
               <div className="f-info-item">
                 <span className="f-info-icon">
@@ -162,7 +168,7 @@ export default function Footer() {
             </div>
             <div className="f-rating">
               <span className="f-rating-dot" />
-              <span className="f-rating-text">76% بيوصوا بيه على فيسبوك</span>
+              <span className="f-rating-text">{FB_FOLLOWERS} متابع على فيسبوك</span>
             </div>
           </div>
 
@@ -175,15 +181,6 @@ export default function Footer() {
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
                 </span>
                 <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer" className="f-info-text f-info-link">صفحتنا على فيسبوك</a>
-              </div>
-              <div className="f-info-item">
-                <span className="f-info-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                    <circle cx="12" cy="12" r="4"/>
-                  </svg>
-                </span>
-                <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="f-info-text f-info-link">صفحتنا على انستجرام</a>
               </div>
               <div className="f-info-item">
                 <span className="f-info-icon">
@@ -201,7 +198,7 @@ export default function Footer() {
 
       {/* ── Bottom bar ── */}
       <div className="f-bottom">
-        <p className="f-copy">© {new Date().getFullYear()} Dega&apos;s Aswan — جميع الحقوق محفوظة</p>
+        <p className="f-copy">© {new Date().getFullYear()} Degas Cafe — جميع الحقوق محفوظة</p>
         <p className="f-copy">Aswan, Egypt</p>
       </div>
     </footer>

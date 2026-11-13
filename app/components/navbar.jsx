@@ -10,6 +10,7 @@ const navLinks = [
   { label: 'تواصل معانا', href: '#footer' },
 ];
 
+// ملحوظة: صورة اللوجو دي لسه مكان فاضي — لازم تتستبدل بلوجو Degas Cafe الحقيقي.
 const GEDO_AVATAR_URL = '/logo.jpg';
 
 /* ─── Hamburger Icon ─────────────────────────────────────────────────────────── */
@@ -29,14 +30,14 @@ function GedoLogo() {
     <div className="flex items-center gap-3">
       <img
         src={GEDO_AVATAR_URL}
-        alt="Dega's Aswan"
+        alt="Degas Cafe Aswan"
         className="h-[76px] w-[76px] rounded-full object-cover flex-shrink-0 drop-shadow-md"
       />
       <span
         className="whitespace-nowrap text-[26px] font-bold text-[#DC2626]"
         style={{ fontFamily: "'Amiri', serif" }}
       >
-        Dega&apos;s Aswan
+        Degas Cafe
       </span>
     </div>
   );

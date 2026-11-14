@@ -2,13 +2,13 @@
 
 import { useEffect, useRef } from 'react';
 
-// ملحوظة: النصوص دي مكتوبة بناءً على موقع الكافيه الحقيقي (كورنيش النيل بجوار
-// المحكمة وفندق النيل)، لحد ما تبعتلي القصة الرسمية الدقيقة لو حابب تستبدلها.
+// ملحوظة: نصوص القصة دي مسودة عامة مكتوبة من الاسم والمدينة بس (مفيش قصة رسمية منشورة
+// لحد دلوقتي). استبدلها بقصة Java Bay الحقيقية لما تتأكد منها.
 const storySlides = [
   {
     id: 0,
     label: 'قصتنا',
-    text: 'على كورنيش النيل، جنب المحكمة، فتحنا Degas Cafe عشان نقدملك فنجان قهوة يليق بإطلالة النيل. من أول رشفة لحد آخر تفصيلة في المكان، حبينا نعمل مكان يجمع الناس على قهوة كويسة وهدوء يريح البال.',
+    text: 'على كورنيش النيل في أسوان، بجوار فندق توليب، فتحنا Java Bay Cafe عشان نقدملك فنجان قهوة يستاهل وقتك. من أول رشفة لحد آخر تفصيلة في المكان، حبينا نعمل مكان يجمع الناس على قهوة كويسة وجو يريّح البال.',
     img: '/1.png',
   },
   {
@@ -25,9 +25,9 @@ const storySlides = [
   },
 ];
 
-// ملحوظة: صورة اللوجو دي لسه مكان فاضي — لازم تتستبدل بلوجو Degas Cafe الحقيقي.
+// ملحوظة: اللوجو مقصوص من صورة منشور على الفيسبوك (جودة محدودة) — استبدل public/logo.png بنسخة عالية الجودة.
 const LOGO_URL =
-  '/logo.jpg';
+  '/logo.png';
 
 const LERP_FACTOR = 0.12;
 const END_BUFFER_VH = 40;
@@ -111,7 +111,7 @@ export default function StorySection() {
         <style>{`
           @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:wght@400;700&display=swap');
 
-          .story-root { background: #DC2626; overflow: hidden; width: 100%; }
+          .story-root { background: var(--brand-primary); overflow: hidden; width: 100%; }
           .story-strip {
             display: flex; flex-direction: row;
             width: ${total * 100}%; height: 100%;
@@ -153,7 +153,7 @@ export default function StorySection() {
               <div className="story-text">
                 <div ref={idx === 0 ? logoWrapRef : null} className="story-logo">
                   <span className="story-logo-icon">
-                    <img src={LOGO_URL} alt="Degas Cafe" />
+                    <img src={LOGO_URL} alt="Java Bay Cafe" />
                   </span>
                 </div>
                 <h3 className="story-title">{slide.label}</h3>
@@ -161,10 +161,10 @@ export default function StorySection() {
                   <span className="block w-12 h-[1px] bg-white/90" />
                   <svg viewBox="0 0 24 24" className="w-5 h-5 text-white fill-current" aria-hidden="true">
                     <path d="M12 2 21 19a10 10 0 0 1-18 0L12 2z" />
-                    <path d="M4.6 15.5c1.6.8 3.2 1.2 5 1.5" fill="none" stroke="#DC2626" strokeWidth="1.1" strokeLinecap="round" />
-                    <circle cx="12" cy="9" r="1" fill="#DC2626" />
-                    <circle cx="9" cy="13" r="1" fill="#DC2626" />
-                    <circle cx="14.5" cy="13.5" r="1" fill="#DC2626" />
+                    <path d="M4.6 15.5c1.6.8 3.2 1.2 5 1.5" fill="none" stroke="var(--brand-primary)" strokeWidth="1.1" strokeLinecap="round" />
+                    <circle cx="12" cy="9" r="1" fill="var(--brand-primary)" />
+                    <circle cx="9" cy="13" r="1" fill="var(--brand-primary)" />
+                    <circle cx="14.5" cy="13.5" r="1" fill="var(--brand-primary)" />
                   </svg>
                   <span className="block w-12 h-[1px] bg-white/90" />
                 </div>

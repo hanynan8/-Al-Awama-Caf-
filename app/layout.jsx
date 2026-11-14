@@ -1,3 +1,4 @@
+import './colors.css';
 import './globals.css';
 import Navbar from './components/navbar';
 import { Aref_Ruqaa, Cairo, Amiri } from 'next/font/google';
@@ -11,8 +12,8 @@ const arefRuqaa = Aref_Ruqaa({
 });
 
 export const metadata = {
-  title: 'My App',
-  description: 'My Next.js app',
+  title: 'Java Bay Cafe | جافا باي كافيه — أسوان',
+  description: 'Java Bay Cafe في أسوان — قهوة ومشروبات وحلويات. تصفح المنيو واطلب بسهولة.',
 };
 
 export default function RootLayout({ children }) {

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { SITE } from '../siteConfig';
 
 const navLinks = [
   { label: 'الرئيسية',    href: '#home'    },
@@ -10,16 +11,16 @@ const navLinks = [
   { label: 'تواصل معانا', href: '#footer' },
 ];
 
-// ملحوظة: صورة اللوجو دي لسه مكان فاضي — لازم تتستبدل بلوجو Degas Cafe الحقيقي.
-const GEDO_AVATAR_URL = '/logo.jpg';
+// ملحوظة: اللوجو مقصوص من صورة منشور على الفيسبوك (جودة محدودة) — استبدل public/logo.png بنسخة عالية الجودة.
+const GEDO_AVATAR_URL = '/logo.png';
 
 /* ─── Hamburger Icon ─────────────────────────────────────────────────────────── */
 function HamburgerIcon({ open }) {
   return (
     <div className="flex flex-col justify-center gap-[6px] w-7 h-7">
-      <span className={`block h-[2px] bg-[#201710] rounded-full transition-all duration-300 origin-center ${open ? 'rotate-45 translate-y-2' : ''}`} />
-      <span className={`block h-[2px] bg-[#201710] rounded-full transition-all duration-300 ${open ? 'opacity-0 scale-x-0' : ''}`} />
-      <span className={`block h-[2px] bg-[#201710] rounded-full transition-all duration-300 origin-center ${open ? '-rotate-45 -translate-y-2' : ''}`} />
+      <span className={`block h-[2px] bg-[#24364F] rounded-full transition-all duration-300 origin-center ${open ? 'rotate-45 translate-y-2' : ''}`} />
+      <span className={`block h-[2px] bg-[#24364F] rounded-full transition-all duration-300 ${open ? 'opacity-0 scale-x-0' : ''}`} />
+      <span className={`block h-[2px] bg-[#24364F] rounded-full transition-all duration-300 origin-center ${open ? '-rotate-45 -translate-y-2' : ''}`} />
     </div>
   );
 }
@@ -30,14 +31,14 @@ function GedoLogo() {
     <div className="flex items-center gap-3">
       <img
         src={GEDO_AVATAR_URL}
-        alt="Degas Cafe Aswan"
+        alt={SITE.name}
         className="h-[76px] w-[76px] rounded-full object-cover flex-shrink-0 drop-shadow-md"
       />
       <span
-        className="whitespace-nowrap text-[26px] font-bold text-[#DC2626]"
+        className="whitespace-nowrap text-[26px] font-bold text-[color:var(--brand-primary)]"
         style={{ fontFamily: "'Amiri', serif" }}
       >
-        Degas Cafe
+        {SITE.name}
       </span>
     </div>
   );
@@ -75,7 +76,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 dir="rtl"
-                className="text-[16px] text-[#201710]/80 transition-colors duration-200 hover:text-[#DC2626]"
+                className="text-[16px] text-[#24364F]/80 transition-colors duration-200 hover:text-[color:var(--brand-primary)]"
                 style={{ fontFamily: 'var(--font-arabic, "Cairo", system-ui, sans-serif)' }}
               >
                 {link.label}
@@ -97,7 +98,7 @@ export default function Navbar() {
       </nav>
 
       {/* ── القائمة المنسدلة (موبايل فقط) ── */}
-      <div className={`md:hidden overflow-hidden bg-white transition-all duration-300 ${isOpen ? 'max-h-96 border-t border-[#201710]/10' : 'max-h-0'}`}>
+      <div className={`md:hidden overflow-hidden bg-white transition-all duration-300 ${isOpen ? 'max-h-96 border-t border-[#24364F]/10' : 'max-h-0'}`}>
         <div className="mx-auto max-w-6xl px-5 sm:px-8 flex flex-col gap-1 py-4">
           {navLinks.map((link) => (
             <a
@@ -105,7 +106,7 @@ export default function Navbar() {
               href={link.href}
               onClick={() => setIsOpen(false)}
               dir="rtl"
-              className="border-b border-[#201710]/10 py-3 text-[18px] text-[#201710]/80 last:border-0 transition-colors duration-200 hover:text-[#DC2626]"
+              className="border-b border-[#24364F]/10 py-3 text-[18px] text-[#24364F]/80 last:border-0 transition-colors duration-200 hover:text-[color:var(--brand-primary)]"
               style={{ fontFamily: 'var(--font-arabic, "Cairo", system-ui, sans-serif)' }}
             >
               {link.label}

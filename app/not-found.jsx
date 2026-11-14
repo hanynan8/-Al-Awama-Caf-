@@ -6,7 +6,7 @@ import { Home, UtensilsCrossed } from 'lucide-react';
 export default function NotFound() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4" style={{
-      backgroundColor: '#FFF9E6'
+      backgroundColor: 'var(--brand-cream)'
     }}>
       <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
       
@@ -14,7 +14,7 @@ export default function NotFound() {
         
         {/* رقم الخطأ */}
         <h1 className="text-9xl font-bold mb-4" style={{ 
-          color: '#DAA520',
+          color: 'var(--brand-primary)',
           fontFamily: "'Cairo', sans-serif"
         }}>
           404
@@ -22,7 +22,7 @@ export default function NotFound() {
 
         {/* العنوان */}
         <h2 className="text-3xl font-bold mb-4" style={{ 
-          color: '#8B4513',
+          color: 'var(--brand-ink)',
           fontFamily: "'Cairo', sans-serif"
         }}>
           الصفحة غير موجودة
@@ -39,7 +39,7 @@ export default function NotFound() {
             onClick={() => window.location.href = '/'}
             className="flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-white font-bold"
             style={{
-              backgroundColor: '#DAA520',
+              backgroundColor: 'var(--brand-primary)',
               fontFamily: "'Cairo', sans-serif"
             }}
           >
@@ -51,8 +51,8 @@ export default function NotFound() {
             onClick={() => window.location.href = '/#menu'}
             className="flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-bold border-2"
             style={{
-              borderColor: '#DAA520',
-              color: '#8B4513',
+              borderColor: 'var(--brand-primary)',
+              color: 'var(--brand-ink)',
               backgroundColor: 'white',
               fontFamily: "'Cairo', sans-serif"
             }}

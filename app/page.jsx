@@ -12,37 +12,37 @@ const HERO_IMG = '/back.png';
 
 // ─── منتجاتنا المميزة (بتتعرض في السلايدر تحت الهيرو) ─────────────────────────
 // ملحوظة: الصور دي لسه أماكن فاضية (h1.png..h4.png) — لازم تتستبدل بصور حقيقية
-// لمشروبات Degas Cafe.
+// لمشروبات Java Bay Cafe (الصور الحالية رسومات مؤقتة).
 const pizzas = [
 {
   id: 1,
-  name: 'آيس لاتيه',
-  price: '٨٥ جنيه',
-  ingredients: 'إسبريسو · حليب بارد · مكعبات ثلج · لمسة فانيليا',
+  name: 'لاتيه',
+  price: 'من ٧٥ جنيه',
+  ingredients: 'إسبريسو · حليب مبخّر · وسط ٧٥ / كبير ٩٠',
   img: '/h1.png',
 },
 
 {
   id: 2,
-  name: 'موخيتو ليمون ونعناع',
-  price: '٧٠ جنيه',
-  ingredients: 'ليمون طازج · نعناع · صودا · ثلج · سيروب موهيتو',
+  name: 'موخيتو لمون نعناع',
+  price: '٧٥ جنيه',
+  ingredients: 'ليمون · نعناع · صودا · ثلج',
   img: '/h2.png',
 },
 
 {
   id: 3,
-  name: 'فرابيه شوكولاتة',
-  price: '٩٥ جنيه',
-  ingredients: 'قهوة إسبريسو · حليب · صوص شوكولاتة · ثلج · كريمة مخفوقة',
+  name: 'موخيتو فراولة',
+  price: '٧٥ جنيه',
+  ingredients: 'فراولة · نعناع · ليمون · صودا · ثلج',
   img: '/h3.png',
 },
 
 {
   id: 4,
-  name: 'مانجو سموثي',
-  price: '٨٥ جنيه',
-  ingredients: 'مانجو طازجة · عصير مانجو · ثلج · قوام كريمي منعش',
+  name: 'ريدبول مانجو',
+  price: '١٢٠ جنيه',
+  ingredients: 'موخيتو بالريدبول · مانجو · ثلج',
   img: '/h4.png',
 },
 ];
@@ -87,13 +87,13 @@ function HeroSection() {
             e.preventDefault();
             document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' });
           }}
-          className="bg-white hover:bg-white/90 text-[#DC2626] mt-[800px] font-bold px-10 py-3 transition-colors duration-200 cursor-pointer font-['Cairo'] text-base inline-block text-center no-underline"
+          className="bg-white hover:bg-white/90 text-[color:var(--brand-primary)] mt-[800px] font-bold px-10 py-3 transition-colors duration-200 cursor-pointer font-['Cairo'] text-base inline-block text-center no-underline"
         >
           تصفح المينيو
         </a>
       </section>
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <div className="w-[600px] h-[600px] rounded-full bg-[#DC2626]/5 blur-[120px]" />
+        <div className="w-[600px] h-[600px] rounded-full blur-[120px]" style={{ background: 'color-mix(in srgb, var(--brand-primary) 5%, transparent)' }} />
       </div>
     </main>
   );
@@ -168,15 +168,15 @@ function PizzaSection() {
     ctx.beginPath();
     const spikes=7;
     for (let i=0;i<spikes*2;i++) { const a=(Math.PI*2*i)/(spikes*2); const r=i%2===0?size:size*(0.45+Math.random()*0.2); i===0?ctx.moveTo(Math.cos(a)*r,Math.sin(a)*r):ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r); }
-    ctx.closePath(); ctx.fillStyle=`rgba(180,20,20,${ctx.globalAlpha})`; ctx.fill();
-    ctx.beginPath(); ctx.arc(-size*.2,-size*.25,size*.18,0,Math.PI*2); ctx.fillStyle=`rgba(230,60,60,${ctx.globalAlpha*.6})`; ctx.fill();
+    ctx.closePath(); ctx.fillStyle=`rgba(94,58,36,${ctx.globalAlpha})`; ctx.fill();
+    ctx.beginPath(); ctx.arc(-size*.2,-size*.25,size*.18,0,Math.PI*2); ctx.fillStyle=`rgba(176,120,70,${ctx.globalAlpha*.6})`; ctx.fill();
     ctx.restore();
   };
 
   const drawCheeseString = (ctx, x, y, len, width, rot) => {
     ctx.save(); ctx.translate(x,y); ctx.rotate(rot);
-    ctx.beginPath(); ctx.ellipse(0,0,width/2,len/2,0,0,Math.PI*2); ctx.fillStyle=`rgba(255,210,50,${ctx.globalAlpha})`; ctx.fill();
-    ctx.beginPath(); ctx.ellipse(-width*.15,-len*.2,width*.2,len*.15,0,0,Math.PI*2); ctx.fillStyle=`rgba(255,240,150,${ctx.globalAlpha*.5})`; ctx.fill();
+    ctx.beginPath(); ctx.ellipse(0,0,width/2,len/2,0,0,Math.PI*2); ctx.fillStyle=`rgba(216,162,74,${ctx.globalAlpha})`; ctx.fill();
+    ctx.beginPath(); ctx.ellipse(-width*.15,-len*.2,width*.2,len*.15,0,0,Math.PI*2); ctx.fillStyle=`rgba(247,225,190,${ctx.globalAlpha*.5})`; ctx.fill();
     ctx.restore();
   };
 
@@ -194,7 +194,7 @@ function PizzaSection() {
         p.x+=p.vx; p.y+=p.vy; p.vy+=p.gravity; p.vx*=0.985; p.rot+=p.vrot; p.life-=p.decay; p.alpha=Math.max(0,p.life);
         ctx.globalAlpha=p.alpha;
         if (p.kind==='image') { const img=INGREDIENT_IMAGES.current[p.type]; if(img){ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.drawImage(img,-p.size/2,-p.size/2,p.size,p.size);ctx.restore();} }
-        else if (p.kind==='ketchup') { if(Math.random()<.25&&p.life>.3)p.trail.push({x:p.x,y:p.y,r:p.size*.3*Math.random(),a:p.alpha*.6}); p.trail.forEach(d=>{ctx.globalAlpha=d.a*p.alpha;ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);ctx.fillStyle='rgba(160,10,10,1)';ctx.fill();}); ctx.globalAlpha=p.alpha; drawKetchupBlob(ctx,p.x,p.y,p.size,p.rot); }
+        else if (p.kind==='ketchup') { if(Math.random()<.25&&p.life>.3)p.trail.push({x:p.x,y:p.y,r:p.size*.3*Math.random(),a:p.alpha*.6}); p.trail.forEach(d=>{ctx.globalAlpha=d.a*p.alpha;ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);ctx.fillStyle='rgba(94,58,36,1)';ctx.fill();}); ctx.globalAlpha=p.alpha; drawKetchupBlob(ctx,p.x,p.y,p.size,p.rot); }
         else if (p.kind==='cheeseString') { drawCheeseString(ctx,p.x,p.y,p.len,p.width,p.rot); }
         ctx.globalAlpha=1;
       });
@@ -315,11 +315,11 @@ function PizzaSection() {
           .ps-corner.pos-br { bottom:72px; right:40px; }
           .ps-corner.pos-bl { bottom:72px; left:40px; }
 
-          .ps-corner-name-btn { background:none; border:none; padding:0; margin:0 0 2px; cursor:pointer; font-family:'Cairo',serif; font-size:clamp(1.25rem,2.3vw,1.9rem); font-weight:700; color:#DC2626; line-height:1.05; transition:opacity 0.2s; }
+          .ps-corner-name-btn { background:none; border:none; padding:0; margin:0 0 2px; cursor:pointer; font-family:'Cairo',serif; font-size:clamp(1.25rem,2.3vw,1.9rem); font-weight:700; color:var(--brand-primary); line-height:1.05; transition:opacity 0.2s; }
           .ps-corner-name-btn.inactive { color:#ccc; }
-          .ps-corner-name-btn.inactive:hover { color:#DC2626; }
-          .ps-corner-price { font-family:'Cairo',sans-serif; font-size:1rem; font-weight:900; color:#1a0a00; margin-bottom:2px; }
-          .ps-corner-divider { width:28px; height:1px; background:#f4b8b8; margin-bottom:2px; }
+          .ps-corner-name-btn.inactive:hover { color:var(--brand-primary); }
+          .ps-corner-price { font-family:'Cairo',sans-serif; font-size:1rem; font-weight:900; color:var(--brand-ink); margin-bottom:2px; }
+          .ps-corner-divider { width:28px; height:1px; background:var(--brand-primary-soft); margin-bottom:2px; }
           .ps-corner-ingredients { font-family:'Cairo',sans-serif; font-size:16px; color:#999; line-height:1.55; margin:0; }
 
           @media (max-width:768px) {
@@ -337,7 +337,7 @@ function PizzaSection() {
           .ps-center-stack { position:absolute; inset:0; display:grid; place-items:center; z-index:3; pointer-events:none; }
           .ps-ring { grid-area:1/1; border-radius:50%; pointer-events:none; }
           .ps-img-inner { grid-area:1/1; display:flex; align-items:center; justify-content:center; will-change:transform,opacity; }
-          .ps-center-img { display:block; width:min(46vw,50vh,380px); max-width:72vw; height:auto; filter:drop-shadow(0 32px 64px rgba(220,38,38,0.18)); }
+          .ps-center-img { display:block; width:min(46vw,50vh,380px); max-width:72vw; height:auto; filter:drop-shadow(0 32px 64px color-mix(in srgb, var(--brand-primary) 18%, transparent)); }
 
           @media (max-width:768px) {
             .ps-center-img { width:min(58vw,42vh,260px); max-width:80vw; }
@@ -345,7 +345,7 @@ function PizzaSection() {
 
           .ps-progress { position:absolute; bottom:14px; left:50%; transform:translateX(-50%); z-index:10; display:flex; align-items:center; gap:10px; }
           .ps-progress-dot { width:6px; height:6px; border-radius:50%; background:#ddd; transition:background 0.3s,transform 0.3s; }
-          .ps-progress-dot.active { background:#DC2626; transform:scale(1.4); }
+          .ps-progress-dot.active { background:var(--brand-primary); transform:scale(1.4); }
         `}</style>
 
         <canvas ref={canvasRef} style={{ position:'absolute', inset:0, zIndex:2, pointerEvents:'none' }} />
@@ -375,8 +375,8 @@ function PizzaSection() {
         })}
 
         <div className="ps-center-stack">
-          <div className="ps-ring" style={{ width:'min(60vw,64vh,640px)', height:'min(60vw,64vh,640px)', border:'1px solid rgba(220,38,38,0.06)' }} />
-          <div className="ps-ring" style={{ width:'min(70vw,74vh,740px)', height:'min(70vw,74vh,740px)', border:'1px solid rgba(220,38,38,0.03)' }} />
+          <div className="ps-ring" style={{ width:'min(60vw,64vh,640px)', height:'min(60vw,64vh,640px)', border:'1px solid color-mix(in srgb, var(--brand-primary) 6%, transparent)' }} />
+          <div className="ps-ring" style={{ width:'min(70vw,74vh,740px)', height:'min(70vw,74vh,740px)', border:'1px solid color-mix(in srgb, var(--brand-primary) 3%, transparent)' }} />
           <div ref={imgInnerRef} className="ps-img-inner">
             <img src={pizza.img} alt={pizza.name} className="ps-center-img" />
           </div>

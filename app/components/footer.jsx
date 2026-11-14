@@ -1,22 +1,24 @@
 'use client';
 
-// ملحوظة: صورة اللوجو دي لسه مكان فاضي — لازم تتستبدل بلوجو Degas Cafe الحقيقي.
-const LOGO_URL = '/logo.jpg';
+import { SITE } from '../siteConfig';
 
-// بيانات حقيقية من صفحة الفيسبوك الرسمية لـ Degas Cafe
-const FACEBOOK_URL  = 'https://www.facebook.com/p/Degas-Cafe-61583519562535/';
-// مفيش حساب انستجرام مؤكد للكافيه لحد دلوقتي، فسبناه فاضي عشان منحطش لينك غلط
-const INSTAGRAM_URL = '';
-const PHONE_DISPLAY = '+20 10 10620272';
-const PHONE_TEL     = '+201010620272';
-const FB_FOLLOWERS  = '1.3K+';
+// ملحوظة: اللوجو مقصوص من صورة منشور على الفيسبوك (جودة محدودة) — استبدل public/logo.png بنسخة عالية الجودة.
+const LOGO_URL = '/logo.png';
+
+// كل البيانات جاية من app/siteConfig.js — اللي فاضي فيها مش بيظهر.
+const FACEBOOK_URL  = SITE.facebookUrl;
+const INSTAGRAM_URL = SITE.instagramUrl;
+const PHONE_DISPLAY = SITE.phoneDisplay;
+const PHONE_TEL     = (SITE.whatsappNumber ? `+${SITE.whatsappNumber}` : PHONE_DISPLAY).replace(/[^+\d]/g, '');
+const WHATSAPP_URL  = SITE.whatsappNumber ? `https://wa.me/${SITE.whatsappNumber}` : '';
+const ADDRESS_AR    = SITE.addressAr || 'أسوان، مصر';
 
 export default function Footer() {
   return (
     <footer
       dir="rtl"
       style={{
-        background: '#DC2626',
+        background: 'var(--brand-primary)',
         fontFamily: "'Cairo', 'Amiri', system-ui, sans-serif",
       }}
     >
@@ -65,7 +67,7 @@ export default function Footer() {
           border: none;
           background: #ffffff;
           display: flex; align-items: center; justify-content: center;
-          color: #DC2626;
+          color: var(--brand-primary);
           cursor: pointer;
           text-decoration: none;
           transition: background 0.2s, transform 0.2s;
@@ -121,13 +123,13 @@ export default function Footer() {
           {/* ── Brand ── */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-              <img src={LOGO_URL} alt="Degas Cafe Aswan" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
+              <img src={LOGO_URL} alt={SITE.name} style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <p className="f-brand-name" style={{ margin: 0, fontSize: 26, letterSpacing: '0.02em', fontFamily: "'Cairo', sans-serif" }}>Degas Cafe</p>
-                <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.9)', textTransform: 'uppercase' }}>Aswan · Egypt</span>
+                <p className="f-brand-name" style={{ margin: 0, fontSize: 26, letterSpacing: '0.02em', fontFamily: "'Cairo', sans-serif" }}>{SITE.name}</p>
+                <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.9)', textTransform: 'uppercase' }}>{SITE.city} · {SITE.country}</span>
               </div>
             </div>
-            <p className="f-brand-sub">كافيه على كورنيش النيل بجوار المحكمة، لقهوة تجمعك مع الأصحاب وهدوء يريح البال.</p>
+            <p className="f-brand-sub">كافيه على كورنيش النيل في أسوان، لقهوة تجمعك مع الأصحاب وجو يريّح البال.</p>
             <div className="f-social">
               <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer" className="f-social-btn" aria-label="Facebook">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
@@ -155,8 +157,9 @@ export default function Footer() {
                     <circle cx="12" cy="10" r="3"/>
                   </svg>
                 </span>
-                <span className="f-info-text">كورنيش النيل، بجوار المحكمة<br/>بجوار فندق النيل، أسوان، مصر</span>
+                <span className="f-info-text">{ADDRESS_AR}</span>
               </div>
+              {PHONE_DISPLAY && (
               <div className="f-info-item">
                 <span className="f-info-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -165,10 +168,7 @@ export default function Footer() {
                 </span>
                 <a href={`tel:${PHONE_TEL}`} className="f-info-text f-info-link">{PHONE_DISPLAY}</a>
               </div>
-            </div>
-            <div className="f-rating">
-              <span className="f-rating-dot" />
-              <span className="f-rating-text">{FB_FOLLOWERS} متابع على فيسبوك</span>
+              )}
             </div>
           </div>
 
@@ -182,14 +182,16 @@ export default function Footer() {
                 </span>
                 <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer" className="f-info-text f-info-link">صفحتنا على فيسبوك</a>
               </div>
+              {WHATSAPP_URL && (
               <div className="f-info-item">
                 <span className="f-info-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M3 21l1.65-4.95A9 9 0 1 1 8.7 19.5L3 21z"/>
                   </svg>
                 </span>
-                <a href={`https://wa.me/${PHONE_TEL.replace('+','')}`} target="_blank" rel="noopener noreferrer" className="f-info-text f-info-link">اطلب على واتساب</a>
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="f-info-text f-info-link">اطلب على واتساب</a>
               </div>
+              )}
             </div>
           </div>
 
@@ -198,8 +200,8 @@ export default function Footer() {
 
       {/* ── Bottom bar ── */}
       <div className="f-bottom">
-        <p className="f-copy">© {new Date().getFullYear()} Degas Cafe — جميع الحقوق محفوظة</p>
-        <p className="f-copy">Aswan, Egypt</p>
+        <p className="f-copy">© {new Date().getFullYear()} {SITE.name} — جميع الحقوق محفوظة</p>
+        <p className="f-copy">{SITE.city}, {SITE.country}</p>
       </div>
     </footer>
   );

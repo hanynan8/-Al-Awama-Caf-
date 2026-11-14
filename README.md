@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Java Bay Cafe — أسوان
 
-## Getting Started
+موقع Next.js لكافيه **Java Bay Cafe** (أسوان) — منيو، سلة طلب على واتساب، وسكاشن حركية (GSAP).
 
-First, run the development server:
-
+## تشغيل
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✅ جاي من الصفحة الرسمية (صور المنيو على الفيسبوك)
+المنيو بالأصناف والأسعار (قهوة · مشروبات ساخنة · موخيتو · موخيتو ريدبول) ورقم التليفون
+`01202922258` والعنوان (كورنيش النيل بجوار فندق توليب). L = كبير ، M = وسط.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## ⚠️ لازم تراجع
+1. **`app/siteConfig.js`** — تأكد إن الرقم عليه واتساب. `instagramUrl` فاضي (مفيش حساب مؤكد). `website` (www.javabay.com) مكتوب على المنيو بس مش معروض.
+2. **الصور** (`public/`): رسومات مؤقتة — استبدلها بصور الكافيه الحقيقية:
+   `logo.png` (اللوجو الحقيقي مقصوص من صورة منشور — ابعت نسخة عالية الجودة) · `back.png` (الهيرو) · `h1–h4.png` (المشروبات المميزة، PNG شفاف) · `1.png` `2.png` `3.jpg` (قصتنا).
+   وصور الأقسام في `Menu.jsx` → `CATEGORY_IMAGES` صور ستوك مؤقتة.
+3. **قصتنا** (`Scroller.jsx`): نص عام — اكتب القصة الحقيقية.
+4. **الألوان**: `app/colors.css` (أبيض + وردي من هوية اللوجو) — غيّرها لو لون اللوجو مختلف.
+5. أصناف مكتوبة بشكل غير واضح في الصور وتم تقديرها: "هوت بوريو مكسرات" و"موخيتو بلو كوراسو" و"ريدبول بلوبري" (كانت مكتوبة "موخيتو بلوبري" بسعر الريدبول ١٢٠).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## متغيرات البيئة
+`MONGO_URI` (اختياري — بيستخدمه `app/api/data/route.js` فقط).

@@ -8,11 +8,11 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          red: "#B22222",     // أحمر غامق - يفتح الشهية
-          gold: "#F4B400",    // أصفر ذهبي - الأكل والطاقة
-          brown: "#5D4037",   // بني غامق - خشب وتراث
-          cream: "#F8F5F0",   // أوف وايت - خلفيات
-          charcoal: "#2E2E2E",// فحمي - نصوص
+          primary: "#D6337F",   // وردي اللوجو
+          dark:    "#A81C5E",   // أغمق للـ hover
+          accent:  "#F28DB7",   // وردي فاتح
+          cream:   "#FFF8FB",   // أبيض مايل للوردي
+          ink:     "#24364F",   // كحلي
         },
       },
       fontFamily: {

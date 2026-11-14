@@ -1,20 +1,17 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { SITE } from '../siteConfig';
 
-// ─── رقم واتساب الكافيه (بالكود الدولي، من غير + أو أصفار زيادة) ─────────────
-const WHATSAPP_NUMBER = '201010620272';
+// ─── رقم واتساب الكافيه — بيتغير من app/siteConfig.js (whatsappNumber) ───────
+const WHATSAPP_NUMBER = SITE.whatsappNumber;
 
 // ─── صور افتراضية لكل قسم — دي صور ستوك مؤقتة، لازم تتستبدل بصور حقيقية ─────
 const CATEGORY_IMAGES = {
-  hot_drinks:    'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&h=700&fit=crop&crop=center',
-  cold_drinks:   'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=600&h=700&fit=crop&crop=center',
-  frappe:        'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&h=700&fit=crop&crop=center',
-  milkshakes:    'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&h=700&fit=crop&crop=center',
-  mocktails:     'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&h=700&fit=crop&crop=center',
-  crepes_waffles:'https://images.unsplash.com/photo-1562376552-0d160a2f238d?w=600&h=700&fit=crop&crop=center',
-  desserts:      'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=600&h=700&fit=crop&crop=center',
-  breakfast:     'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&h=700&fit=crop&crop=center',
+  coffee:        'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&h=700&fit=crop&crop=center',
+  hot_drinks:    'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&h=700&fit=crop&crop=center',
+  mojito:        'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&h=700&fit=crop&crop=center',
+  redbull_mojito:'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=600&h=700&fit=crop&crop=center',
 };
 
 const SIZE_LABELS = { S: 'صغير', M: 'وسط', L: 'كبير' };
@@ -24,7 +21,7 @@ const SIZE_ORDER = ['S', 'M', 'L'];
 const PLACEHOLDER_IMG =
   'data:image/svg+xml;utf8,' +
   encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="#f0ebe6"/><text x="50%" y="50%" font-family="sans-serif" font-size="40" text-anchor="middle" dominant-baseline="middle" fill="#c9b8a8">☕</text></svg>`
+    `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="#fbe9f1"/><text x="50%" y="50%" font-family="sans-serif" font-size="40" text-anchor="middle" dominant-baseline="middle" fill="#e3b5cb">☕</text></svg>`
   );
 
 function handleImgError(e) {
@@ -32,96 +29,87 @@ function handleImgError(e) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// بيانات المنيو — منيو منطقي لكافيه (لسه مبدئي، الأسعار تقريبية ومحتاجة
-// مراجعة/تأكيد من صاحب المكان قبل النشر النهائي).
+// بيانات المنيو — منقولة من صور المنيو الرسمية على صفحة الفيسبوك (الأسعار بالجنيه
+// المصري). L = كبير ، M = وسط. الصنف اللي له حجم واحد بس مكتوب له الحجم ده بس.
 // ═══════════════════════════════════════════════════════════════════════════
 const MENU_DATA = {
+  coffee: {
+    label_ar: 'قهوة',
+    label_en: 'coffee',
+    items: [
+      { name_ar: 'إسبريسو',               L: 70,  M: 50 },
+      { name_ar: 'إسبريسو ميكاتو',        M: 60 },
+      { name_ar: 'إسبريسو أفوجاتو',       M: 85 },
+      { name_ar: 'إسبريسو كورتادو',       M: 75 },
+      { name_ar: 'كابتشينو',              L: 90 },
+      { name_ar: 'لاتيه',                 L: 90,  M: 75 },
+      { name_ar: 'هوت سبانش لاتيه',       L: 110, M: 90 },
+      { name_ar: 'فلات وايت',             L: 100, M: 75 },
+      { name_ar: 'أمريكان كوفي',          L: 65 },
+      { name_ar: 'نسكافيه حليب',          L: 70 },
+      { name_ar: 'نسكافيه',               L: 60,  M: 40 },
+      { name_ar: 'هوت موكا',              L: 110, M: 80 },
+      { name_ar: 'هوت موكا وايت',         L: 110, M: 80 },
+      { name_ar: 'قهوة تركي',             L: 60,  M: 40 },
+      { name_ar: 'قهوة تركي محوج',        L: 65,  M: 45 },
+      { name_ar: 'قهوة فرنساوي',          L: 70 },
+      { name_ar: 'قهوة فرنساوي قرفة',     L: 75 },
+      { name_ar: 'قهوة فرنساوي بندق',     L: 80 },
+      { name_ar: 'قهوة فرنساوي كراميل',   L: 80 },
+      { name_ar: 'قهوة فرنساوي فانيليا',  L: 80 },
+      { name_ar: 'قهوة فرنساوي شيكولاتة', L: 85 },
+    ],
+  },
   hot_drinks: {
     label_ar: 'مشروبات ساخنة',
-    label_en: 'hot drinks',
+    label_en: 'hot drink',
     items: [
-      { name_ar: 'قهوة تركي',        name_en: 'Turkish Coffee', price: 35 },
-      { name_ar: 'إسبريسو',          name_en: 'Espresso',       price: 40 },
-      { name_ar: 'أمريكانو',         name_en: 'Americano',      price: 45 },
-      { name_ar: 'كابتشينو',         name_en: 'Cappuccino',     price: 55 },
-      { name_ar: 'لاتيه',            name_en: 'Latte',          price: 60 },
-      { name_ar: 'سبانش لاتيه',      name_en: 'Spanish Latte',  price: 75 },
-      { name_ar: 'شاي كركديه ساخن',  name_en: 'Hot Hibiscus Tea', price: 30 },
-      { name_ar: 'شاي أعشاب',        name_en: 'Herbal Tea',     price: 30 },
+      { name_ar: 'شاي',            price: 25 },
+      { name_ar: 'شاي حليب',       price: 50 },
+      { name_ar: 'شاي فواكه',      price: 40 },
+      { name_ar: 'شاي أخضر',       price: 35 },
+      { name_ar: 'شاي قرنفل',      price: 40 },
+      { name_ar: 'ينسون',          price: 35 },
+      { name_ar: 'كركديه',         price: 35 },
+      { name_ar: 'جنزبيل',         price: 35 },
+      { name_ar: 'ليمون ساخن',     price: 35 },
+      { name_ar: 'فايتمن C',       price: 85 },
+      { name_ar: 'سحلب سادة',      price: 70 },
+      { name_ar: 'سحلب مكسرات',    price: 90 },
+      { name_ar: 'سحلب لوتس',      price: 80 },
+      { name_ar: 'سحلب نوتيلا',    price: 80 },
+      { name_ar: 'هوت سيدر',       price: 75 },
+      { name_ar: 'هوت شوكليت',     price: 80 },
+      { name_ar: 'هوت أوريو',      price: 90 },
+      { name_ar: 'هوت بوريو مكسرات', price: 130 },
     ],
   },
-  cold_drinks: {
-    label_ar: 'مشروبات باردة',
-    label_en: 'cold drinks',
+  mojito: {
+    label_ar: 'موخيتو',
+    label_en: 'mojito',
     items: [
-      { name_ar: 'آيس أمريكانو',        name_en: 'Iced Americano',      price: 55 },
-      { name_ar: 'آيس لاتيه',           name_en: 'Iced Latte',          price: 70 },
-      { name_ar: 'آيس سبانش لاتيه',     name_en: 'Iced Spanish Latte',  price: 85 },
-      { name_ar: 'كركديه بارد',         name_en: 'Iced Hibiscus',       price: 45 },
-      { name_ar: 'ليموناضة بالنعناع',   name_en: 'Mint Lemonade',       price: 50 },
-      { name_ar: 'عصير مانجو طازة',     name_en: 'Fresh Mango Juice',   price: 55 },
-      { name_ar: 'عصير برتقال طازة',    name_en: 'Fresh Orange Juice',  price: 50 },
+      { name_ar: 'موخيتو لمون نعناع',  price: 75 },
+      { name_ar: 'موخيتو بلوبري',      price: 75 },
+      { name_ar: 'موخيتو باشون فروت',  price: 75 },
+      { name_ar: 'موخيتو بلو كوراسو',  price: 75 },
+      { name_ar: 'موخيتو بطيخ',        price: 75 },
+      { name_ar: 'موخيتو فراولة',      price: 75 },
+      { name_ar: 'موخيتو خوخ',         price: 75 },
+      { name_ar: 'موخيتو برتقال',      price: 75 },
     ],
   },
-  frappe: {
-    label_ar: 'فرابيه',
-    label_en: 'frappe',
+  redbull_mojito: {
+    label_ar: 'موخيتو ريدبول',
+    label_en: 'redbull mojito',
     items: [
-      { name_ar: 'فرابيه كراميل',    name_en: 'Caramel Frappe',    price: 90 },
-      { name_ar: 'فرابيه شوكولاتة',  name_en: 'Chocolate Frappe',  price: 90 },
-      { name_ar: 'فرابيه فانيليا',   name_en: 'Vanilla Frappe',    price: 85 },
-      { name_ar: 'فرابيه بندق',      name_en: 'Hazelnut Frappe',   price: 95 },
-    ],
-  },
-  milkshakes: {
-    label_ar: 'ميلك شيك',
-    label_en: 'milkshakes',
-    items: [
-      { name_ar: 'ميلك شيك فانيليا',    name_en: 'Vanilla Milkshake',   price: 85 },
-      { name_ar: 'ميلك شيك شوكولاتة',   name_en: 'Chocolate Milkshake', price: 90 },
-      { name_ar: 'ميلك شيك فراولة',     name_en: 'Strawberry Milkshake',price: 90 },
-      { name_ar: 'ميلك شيك أوريو',      name_en: 'Oreo Milkshake',      price: 95 },
-    ],
-  },
-  mocktails: {
-    label_ar: 'موكتيلز',
-    label_en: 'mocktails',
-    items: [
-      { name_ar: 'موهيتو كلاسيك',        name_en: 'Classic Mojito',     price: 70 },
-      { name_ar: 'بلوبيري موهيتو',        name_en: 'Blueberry Mojito',  price: 80 },
-      { name_ar: 'بينا كولادا فيرجن',     name_en: 'Virgin Piña Colada',price: 75 },
-      { name_ar: 'موهيتو فراولة',         name_en: 'Strawberry Mojito', price: 80 },
-    ],
-  },
-  crepes_waffles: {
-    label_ar: 'كريب و وافل',
-    label_en: 'crepes & waffles',
-    items: [
-      { name_ar: 'وافل نوتيلا وموز',   name_en: 'Nutella Banana Waffle', price: 110 },
-      { name_ar: 'وافل عسل وجبنة',     name_en: 'Honey Cheese Waffle',   price: 100 },
-      { name_ar: 'كريب نوتيلا',        name_en: 'Nutella Crepe',         price: 95  },
-      { name_ar: 'كريب ميكس فواكه',    name_en: 'Mixed Fruit Crepe',     price: 105 },
-      { name_ar: 'كريب دجاج وجبنة',    name_en: 'Chicken Cheese Crepe',  price: 120 },
-    ],
-  },
-  desserts: {
-    label_ar: 'حلويات',
-    label_en: 'desserts',
-    items: [
-      { name_ar: 'تشيز كيك',              name_en: 'Cheesecake',      price: 95  },
-      { name_ar: 'براونيز بالشوكولاتة',    name_en: 'Chocolate Brownie', price: 85 },
-      { name_ar: 'كيكة الشوكولاتة',        name_en: 'Chocolate Cake',  price: 90  },
-      { name_ar: 'تيراميسو',              name_en: 'Tiramisu',        price: 100 },
-    ],
-  },
-  breakfast: {
-    label_ar: 'فطار خفيف',
-    label_en: 'breakfast',
-    items: [
-      { name_ar: 'كرواسون زبدة',           name_en: 'Butter Croissant',    price: 45 },
-      { name_ar: 'توست جبنة وزيتون',       name_en: 'Cheese & Olive Toast',price: 55 },
-      { name_ar: 'سندوتش تونة صغير',       name_en: 'Mini Tuna Sandwich',  price: 65 },
-      { name_ar: 'سندوتش جبنة حلوم',       name_en: 'Halloumi Sandwich',   price: 65 },
+      { name_ar: 'ريدبول فراولة',     price: 120 },
+      { name_ar: 'ريدبول أناناس',     price: 120 },
+      { name_ar: 'ريدبول كيوي',       price: 120 },
+      { name_ar: 'ريدبول برتقال',     price: 120 },
+      { name_ar: 'ريدبول مانجو',      price: 120 },
+      { name_ar: 'ريدبول جوز هند',    price: 120 },
+      { name_ar: 'ريدبول باشون فروت', price: 120 },
+      { name_ar: 'ريدبول بلوبري',     price: 120 },
     ],
   },
 };
@@ -129,14 +117,10 @@ const MENU_DATA = {
 // ─── وصف مختصر لكل قسم بالعربي ──────────────────────────────────────────────
 function descriptionFor(catKey) {
   const descriptions = {
-    hot_drinks:     'مشروبات ساخنة تتحضر لحظة بلحظة بخلطات مختارة',
-    cold_drinks:    'مشروبات باردة ومنعشة تناسب جو أسوان',
-    frappe:         'فرابيه بارد ومخفوق بطبقة كريمة فوق',
-    milkshakes:     'ميلك شيك كريمي بطعم غني',
-    mocktails:      'موكتيلز منعشة من غير كحول بطعم مختلف',
-    crepes_waffles: 'كريب ووافل طازة تتحضر وقت الطلب',
-    desserts:       'حلويات طازة تقدم مع مشروبك المفضل',
-    breakfast:      'فطار خفيف يناسب الصبح على النيل',
+    coffee:         'قهوة تتحضر لحظة بلحظة — إسبريسو، لاتيه، موكا وقهوة فرنساوي',
+    hot_drinks:     'شاي وأعشاب وسحلب ومشروبات ساخنة تدفّي يومك',
+    mojito:         'موخيتو منعش بنكهات الفواكه',
+    redbull_mojito: 'موخيتو بالريدبول لطاقة زيادة',
   };
   return descriptions[catKey] || 'من مطبخنا بأيدي أمينة';
 }
@@ -150,7 +134,7 @@ function parseCategories(menuData) {
       key,
       label_ar: cat.label_ar,
       label_en: (cat.label_en || key).toUpperCase(),
-      img: CATEGORY_IMAGES[key] || CATEGORY_IMAGES.hot_drinks,
+      img: CATEGORY_IMAGES[key] || CATEGORY_IMAGES.coffee,
       items: cat.items,
     }));
 }
@@ -199,7 +183,7 @@ function ProductCard({ item, catKey, selectedVariant, onSelectVariant, onAdd, ju
     <div className="product-card">
       <div className="product-card-img-wrap">
         <img
-          src={CATEGORY_IMAGES[catKey] || CATEGORY_IMAGES.hot_drinks}
+          src={CATEGORY_IMAGES[catKey] || CATEGORY_IMAGES.coffee}
           alt={item.name_ar}
           className="product-card-img"
           onError={handleImgError}
@@ -279,7 +263,7 @@ export default function MenuSection() {
           cartId,
           catKey,
           name_ar: item.name_ar,
-          img: CATEGORY_IMAGES[catKey] || CATEGORY_IMAGES.hot_drinks,
+          img: CATEGORY_IMAGES[catKey] || CATEGORY_IMAGES.coffee,
           variantKey: variant.key,
           variantLabel: variant.label,
           price: variant.price,
@@ -302,7 +286,14 @@ export default function MenuSection() {
   function checkoutOnWhatsApp() {
     if (!cart.length) return;
     const msg = buildWhatsAppMessage(cart, cartTotal);
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+    if (WHATSAPP_NUMBER) {
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+      return;
+    }
+    // مفيش رقم واتساب متسجل لسه → نفتح ماسنجر الصفحة وننسخ نص الطلب
+    try { navigator.clipboard?.writeText(decodeURIComponent(msg)); } catch (e) {}
+    window.alert('تم نسخ طلبك — الصقه في محادثة الماسنجر.');
+    window.open(SITE.messengerUrl, '_blank');
   }
 
   return (
@@ -312,7 +303,7 @@ export default function MenuSection() {
 
         .ms-root {
           position: relative;
-          background: #fafaf8;
+          background: var(--brand-paper);
           padding: 72px 0 120px;
           font-family: 'Cairo', sans-serif;
           min-height: 100vh;
@@ -321,7 +312,7 @@ export default function MenuSection() {
         .ms-eyebrow { text-align: center; margin-bottom: 12px; padding: 0 24px; }
         .ms-eyebrow-rule { display: flex; align-items: center; gap: 20px; max-width: 480px; margin: 0 auto; }
         .ms-eyebrow-rule-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, #c8a882, transparent); display: block; }
-        .ms-eyebrow-tag { font-size: 1rem; font-weight: 700; letter-spacing: 0.22em; color: #DC2626; text-transform: uppercase; flex-shrink: 0; }
+        .ms-eyebrow-tag { font-size: 1rem; font-weight: 700; letter-spacing: 0.22em; color: var(--brand-primary); text-transform: uppercase; flex-shrink: 0; }
         .ms-eyebrow-note { text-align: center; font-size: 12px; color: #b3a596; margin: 10px 0 28px; }
 
         .ms-grid-wrapper { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
@@ -330,7 +321,7 @@ export default function MenuSection() {
         .cart-fab {
           position: fixed; top: 100px; left: 20px; z-index: 40;
           width: 52px; height: 52px; border-radius: 50%;
-          background: #DC2626; color: #fff; border: none; cursor: pointer;
+          background: var(--brand-primary); color: #fff; border: none; cursor: pointer;
           display: flex; align-items: center; justify-content: center;
           box-shadow: 0 8px 20px rgba(0,0,0,0.18);
           transition: transform 0.2s;
@@ -338,10 +329,10 @@ export default function MenuSection() {
         .cart-fab:hover { transform: scale(1.06); }
         .cart-fab-badge {
           position: absolute; top: -4px; right: -4px;
-          background: #ffffff; color: #DC2626; font-size: 11px; font-weight: 800;
+          background: #ffffff; color: var(--brand-primary); font-size: 11px; font-weight: 800;
           min-width: 20px; height: 20px; border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
-          padding: 0 4px; border: 2px solid #DC2626;
+          padding: 0 4px; border: 2px solid var(--brand-primary);
         }
 
         /* ── شبكة الفئات ── */
@@ -368,7 +359,7 @@ export default function MenuSection() {
           position: absolute; inset: 0;
           width: 100%; height: 100%;
           object-fit: cover;
-          background: #f0ebe6;
+          background: #fbe9f1;
         }
         .cat-card-overlay {
           position: absolute; inset: 0;
@@ -405,8 +396,8 @@ export default function MenuSection() {
         .pill {
           flex-shrink: 0;
           background: #fff;
-          border: 1px solid #eadfd2;
-          color: #7a6a5a;
+          border: 1px solid #f3d9e5;
+          color: #6b5a65;
           font-size: 13px; font-weight: 700;
           padding: 10px 20px;
           border-radius: 100px;
@@ -414,7 +405,7 @@ export default function MenuSection() {
           white-space: nowrap;
           transition: all 0.2s;
         }
-        .pill.active { background: #DC2626; border-color: #DC2626; color: #fff; }
+        .pill.active { background: var(--brand-primary); border-color: var(--brand-primary); color: #fff; }
 
         .detail-header {
           display: flex; align-items: center; justify-content: space-between;
@@ -424,14 +415,14 @@ export default function MenuSection() {
           font-family: 'Amiri', serif;
           font-size: clamp(1.8rem, 4vw, 2.6rem);
           font-weight: 700;
-          color: #DC2626;
+          color: var(--brand-primary);
         }
         .back-link {
           background: none; border: none; cursor: pointer;
           font-size: 13px; font-weight: 700; color: #9a8b7a;
           display: flex; align-items: center; gap: 4px;
         }
-        .back-link:hover { color: #DC2626; }
+        .back-link:hover { color: var(--brand-primary); }
 
         .product-grid {
           display: grid;
@@ -452,22 +443,22 @@ export default function MenuSection() {
         .product-card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .product-card-body { padding: 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
         .product-card-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-        .product-card-price { font-size: 12px; font-weight: 800; color: #DC2626; white-space: nowrap; }
-        .product-card-name { font-size: 14px; font-weight: 700; color: #1a0a00; text-align: left; }
-        .product-card-desc { font-size: 11.5px; color: #a89a8c; line-height: 1.5; min-height: 32px; }
+        .product-card-price { font-size: 12px; font-weight: 800; color: var(--brand-primary); white-space: nowrap; }
+        .product-card-name { font-size: 14px; font-weight: 700; color: var(--brand-ink); text-align: left; }
+        .product-card-desc { font-size: 11.5px; color: #9a8a94; line-height: 1.5; min-height: 32px; }
 
         .size-row { display: flex; gap: 6px; flex-wrap: wrap; }
         .size-chip {
           font-size: 11px; font-weight: 700;
-          border: 1px solid #eadfd2; background: #fff; color: #7a6a5a;
+          border: 1px solid #f3d9e5; background: #fff; color: #6b5a65;
           padding: 5px 12px; border-radius: 100px; cursor: pointer;
           transition: all 0.15s;
         }
-        .size-chip.active { background: #DC2626; border-color: #DC2626; color: #fff; }
+        .size-chip.active { background: var(--brand-primary); border-color: var(--brand-primary); color: #fff; }
 
         .add-btn {
           margin-top: auto;
-          background: #DC2626; color: #fff; border: none;
+          background: var(--brand-primary); color: #fff; border: none;
           font-size: 13px; font-weight: 700;
           padding: 11px; border-radius: 10px; cursor: pointer;
           transition: background 0.2s;
@@ -484,7 +475,7 @@ export default function MenuSection() {
         }
         .checkout-bar {
           pointer-events: auto;
-          background: #DC2626;
+          background: var(--brand-primary);
           color: #fff;
           border-radius: 100px;
           display: flex; align-items: center; gap: 14px;
@@ -493,7 +484,7 @@ export default function MenuSection() {
           max-width: 460px; width: 100%;
         }
         .checkout-bar-count {
-          font-size: 12px; font-weight: 700; color: #ffe5e5; white-space: nowrap;
+          font-size: 12px; font-weight: 700; color: var(--brand-primary-tint); white-space: nowrap;
         }
         .checkout-bar-total {
           font-size: 14px; font-weight: 800; margin-inline-start: auto; white-space: nowrap;
@@ -518,32 +509,32 @@ export default function MenuSection() {
         }
         @keyframes cart-slide-in { from { transform: translateX(-24px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         .cart-panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .cart-panel-title { font-family: 'Amiri', serif; font-size: 1.6rem; font-weight: 700; color: #1a0a00; }
-        .cart-close { background: #f5efe8; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 15px; color: #7a6a5a; }
-        .cart-empty { text-align: center; color: #a89a8c; padding: 60px 0; font-size: 13px; }
+        .cart-panel-title { font-family: 'Amiri', serif; font-size: 1.6rem; font-weight: 700; color: var(--brand-ink); }
+        .cart-close { background: #fbeff4; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 15px; color: #6b5a65; }
+        .cart-empty { text-align: center; color: #9a8a94; padding: 60px 0; font-size: 13px; }
 
-        .cart-line { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f3eeea; }
-        .cart-line-img { width: 52px; height: 52px; border-radius: 12px; object-fit: cover; flex-shrink: 0; background: #f5efe8; }
+        .cart-line { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #fbf1f5; }
+        .cart-line-img { width: 52px; height: 52px; border-radius: 12px; object-fit: cover; flex-shrink: 0; background: #fbeff4; }
         .cart-line-body { flex: 1; min-width: 0; }
-        .cart-line-name { font-size: 13px; font-weight: 700; color: #1a0a00; }
-        .cart-line-variant { font-size: 11px; color: #a89a8c; }
-        .cart-line-price { font-size: 12px; font-weight: 700; color: #DC2626; margin-top: 2px; }
+        .cart-line-name { font-size: 13px; font-weight: 700; color: var(--brand-ink); }
+        .cart-line-variant { font-size: 11px; color: #9a8a94; }
+        .cart-line-price { font-size: 12px; font-weight: 700; color: var(--brand-primary); margin-top: 2px; }
         .qty-stepper { display: flex; align-items: center; gap: 8px; }
         .qty-btn {
-          width: 26px; height: 26px; border-radius: 50%; border: 1px solid #eadfd2;
-          background: #fff; cursor: pointer; font-size: 14px; color: #1a0a00;
+          width: 26px; height: 26px; border-radius: 50%; border: 1px solid #f3d9e5;
+          background: #fff; cursor: pointer; font-size: 14px; color: var(--brand-ink);
           display: flex; align-items: center; justify-content: center;
         }
         .qty-val { font-size: 13px; font-weight: 700; min-width: 16px; text-align: center; }
 
         .cart-panel-footer { margin-top: auto; padding-top: 16px; }
-        .cart-panel-total { display: flex; justify-content: space-between; font-weight: 800; font-size: 15px; color: #1a0a00; margin-bottom: 14px; }
+        .cart-panel-total { display: flex; justify-content: space-between; font-weight: 800; font-size: 15px; color: var(--brand-ink); margin-bottom: 14px; }
         .cart-panel-checkout {
           width: 100%; background: #25D366; color: #fff; border: none;
           font-size: 14px; font-weight: 700; padding: 14px; border-radius: 12px; cursor: pointer;
         }
 
-        .ms-error { text-align: center; color: #DC2626; padding: 60px 24px; font-size: 14px; }
+        .ms-error { text-align: center; color: var(--brand-primary); padding: 60px 24px; font-size: 14px; }
       `}</style>
 
       {/* زرار السلة العائم */}
